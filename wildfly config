@@ -1,0 +1,9 @@
+#DataSource to paste on wildfly standalone.xml
+<datasource jta="true" jndi-name="java:jboss/datasources/sgafDB" pool-name="sgafDB" enabled="true" use-java-context="true">
+                    <connection-url>jdbc:mysql://localhost:3306/sgafDB</connection-url>
+                    <driver>mysql</driver>
+                    <security>
+                        <user-name>dwws</user-name>
+                        <password>1234</password>
+                    </security>
+                </datasource>
