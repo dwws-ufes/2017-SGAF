@@ -32,22 +32,26 @@ public class Movie extends PersistentObjectSupport implements Comparable<Movie> 
 	@Basic
 	@NotNull
 	@Size(max = 100)
-	protected String title;
+	private String title;
 
 	/** The Movie's length. */
 	@Basic
 	@NotNull
-	protected Long length;
+	private Long length;
 
 	/** The Movie's launch date. */
 	@Temporal(TemporalType.DATE)
-	protected Date launchDate;
+	private Date launchDate;
+	
+	/** The Movie's Register date. */
+	@Temporal(TemporalType.DATE)
+	private Date registerDate;
 
 	/** The Movie's synopsis. */
 	@Basic
 	@NotNull
 	@Size(max = 400)
-	protected String synopsis;
+	private String synopsis;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Review> reviews;
@@ -91,6 +95,14 @@ public class Movie extends PersistentObjectSupport implements Comparable<Movie> 
 
 	public void setSynopsis(String synopsis) {
 		this.synopsis = synopsis;
+	}
+
+	public Date getRegisterDate() {
+		return registerDate;
+	}
+
+	public void setRegisterDate(Date registerDate) {
+		this.registerDate = registerDate;
 	}
 
 	/** @see java.lang.Comparable#compareTo(java.lang.Object) */
