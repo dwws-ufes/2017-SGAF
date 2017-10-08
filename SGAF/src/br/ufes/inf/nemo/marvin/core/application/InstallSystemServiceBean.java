@@ -9,11 +9,11 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import br.ufes.inf.nemo.jbutler.TextUtils;
-import br.ufes.inf.nemo.marvin.core.domain.Academic;
 import br.ufes.inf.nemo.marvin.core.domain.MarvinConfiguration;
+import br.ufes.inf.nemo.marvin.core.domain.User;
 import br.ufes.inf.nemo.marvin.core.exceptions.SystemInstallFailedException;
-import br.ufes.inf.nemo.marvin.core.persistence.AcademicDAO;
 import br.ufes.inf.nemo.marvin.core.persistence.MarvinConfigurationDAO;
+import br.ufes.inf.nemo.marvin.core.persistence.UserDAO;
 
 /**
  * TODO: document this type.
@@ -29,9 +29,9 @@ public class InstallSystemServiceBean implements InstallSystemService {
 	/** The logger. */
 	private static final Logger logger = Logger.getLogger(InstallSystemServiceBean.class.getCanonicalName());
 
-	/** The DAO for Academic objects. */
+	/** The DAO for User objects. */
 	@EJB
-	private AcademicDAO academicDAO;
+	private UserDAO userDAO;
 
 	/** The DAO for MarvinConfiguration objects. */
 	@EJB
@@ -46,7 +46,7 @@ public class InstallSystemServiceBean implements InstallSystemService {
 	 *      br.ufes.inf.nemo.marvin.core.domain.Academic)
 	 */
 	@Override
-	public void installSystem(MarvinConfiguration config, Academic admin) throws SystemInstallFailedException {
+	public void installSystem(MarvinConfiguration config, User admin) throws SystemInstallFailedException {
 		logger.log(Level.FINER, "Installing system...");
 
 		try {
@@ -61,26 +61,30 @@ public class InstallSystemServiceBean implements InstallSystemService {
 			logger.log(Level.FINE, "Admin's last update date have been set as: {0}", new Object[] { now });
 
 			// Saves the administrator.
-			logger.log(Level.FINER, "Persisting admin data...\n\t- Short name = {0}\n\t- Last update date = {1}", new Object[] { admin.getShortName(), admin.getLastUpdateDate() });
-			academicDAO.save(admin);
-			logger.log(Level.FINE, "The administrator has been saved: {0} ({1})", new Object[] { admin.getName(), admin.getEmail() });
+			logger.log(Level.FINER, "Persisting admin data...\n\t- Short name = {0}\n\t- Last update date = {1}",
+					new Object[] { admin.getShortName(), admin.getLastUpdateDate() });
+			userDAO.save(admin);
+			logger.log(Level.FINE, "The administrator has been saved: {0} ({1})",
+					new Object[] { admin.getName(), admin.getEmail() });
 
 			// Saves Marvin's configuration.
-			logger.log(Level.FINER, "Persisting configuration data...\n\t- Date = {0}\n\t- Acronym = {1}", new Object[] { config.getCreationDate(), config.getInstitutionAcronym() });
+			logger.log(Level.FINER, "Persisting configuration data...\n\t- Date = {0}\n\t- Acronym = {1}",
+					new Object[] { config.getCreationDate(), config.getInstitutionAcronym() });
 			marvinConfigurationDAO.save(config);
 			logger.log(Level.FINE, "The configuration has been saved");
 
-			// Reloads the bean that holds the configuration and determines if the system is installed.
+			// Reloads the bean that holds the configuration and determines if
+			// the system is installed.
 			logger.log(Level.FINER, "Reloading core information...");
 			coreInformation.init();
-		}
-		catch (NoSuchAlgorithmException e) {
-			// Logs and rethrows the exception for the controller to display the error to the user.
+		} catch (NoSuchAlgorithmException e) {
+			// Logs and rethrows the exception for the controller to display the
+			// error to the user.
 			logger.log(Level.SEVERE, "Could not find MD5 algorithm for password encription!", e);
 			throw new SystemInstallFailedException(e);
-		}
-		catch (Exception e) {
-			// Logs and rethrows the exception for the controller to display the error to the user.
+		} catch (Exception e) {
+			// Logs and rethrows the exception for the controller to display the
+			// error to the user.
 			logger.log(Level.SEVERE, "Exception during system installation!", e);
 			throw new SystemInstallFailedException(e);
 		}

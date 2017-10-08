@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 import javax.ejb.Local;
 
-import br.ufes.inf.nemo.marvin.core.domain.Academic;
 import br.ufes.inf.nemo.marvin.core.domain.MarvinConfiguration;
+import br.ufes.inf.nemo.marvin.core.domain.User;
 import br.ufes.inf.nemo.marvin.core.exceptions.SystemInstallFailedException;
 
 /**
@@ -23,5 +23,5 @@ public interface InstallSystemService extends Serializable {
 	 * @param admin
 	 * @throws SystemInstallFailedException
 	 */
-	void installSystem(MarvinConfiguration config, Academic admin) throws SystemInstallFailedException;
+	void installSystem(MarvinConfiguration config, User admin) throws SystemInstallFailedException;
 }

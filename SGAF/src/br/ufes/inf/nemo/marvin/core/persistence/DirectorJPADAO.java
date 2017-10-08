@@ -2,12 +2,14 @@ package br.ufes.inf.nemo.marvin.core.persistence;
 
 import java.util.logging.Logger;
 
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseJPADAO;
 import br.ufes.inf.nemo.marvin.core.domain.Director;
 
+@Stateless
 public class DirectorJPADAO extends BaseJPADAO<Director> implements DirectorDAO {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
