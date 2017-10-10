@@ -17,7 +17,7 @@ public class User_ extends Person_ {
 	public static volatile SingularAttribute<User, String> shortName;
 	public static volatile SingularAttribute<User, String> email;
 	public static volatile SingularAttribute<User, String> password;
-	public static volatile SetAttribute<User, Telephone> telephones;
+	public static volatile SetAttribute<User, Review> reviews;
 	public static volatile SingularAttribute<User, Date> creationDate;
 	public static volatile SingularAttribute<User, Date> lastUpdateDate;
 	public static volatile SingularAttribute<User, Date> lastLoginDate;

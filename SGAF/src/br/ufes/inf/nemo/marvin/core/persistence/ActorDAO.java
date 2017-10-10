@@ -7,5 +7,5 @@ import br.ufes.inf.nemo.marvin.core.domain.Actor;
 
 @Local
 public interface ActorDAO extends BaseDAO<Actor> {
-
+	
 }

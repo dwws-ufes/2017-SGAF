@@ -4,11 +4,10 @@ import java.io.Serializable;
 
 import javax.ejb.Local;
 
-import br.ufes.inf.nemo.marvin.core.domain.Movie;
+import br.ufes.inf.nemo.marvin.core.domain.User;
 import br.ufes.inf.nemo.marvin.core.exceptions.SystemInstallFailedException;
 
 @Local
-public interface RegMovieService extends Serializable {
-
-	public void registerMovie(Movie movie) throws SystemInstallFailedException;
+public interface RegUserService extends Serializable {
+	public void registerUser(User user) throws SystemInstallFailedException;
 }

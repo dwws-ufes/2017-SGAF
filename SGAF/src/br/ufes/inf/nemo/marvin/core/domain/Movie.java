@@ -19,7 +19,7 @@ import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
 /**
  * What is a movie anyways...
  * 
- * @author rodol
+ * @author Rodolfo
  *
  */
 @Entity
@@ -53,7 +53,7 @@ public class Movie extends PersistentObjectSupport implements Comparable<Movie> 
 	@Size(max = 400)
 	private String synopsis;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "movie")
 	private Set<Review> reviews;
 
 	@ManyToMany(fetch = FetchType.LAZY)

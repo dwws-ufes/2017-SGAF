@@ -74,7 +74,7 @@ public class Genre extends PersistentObjectSupport implements Comparable<Genre> 
 	/** @see java.lang.Comparable#compareTo(java.lang.Object) */
 	@Override
 	public int compareTo(Genre o) {
-		// Compare the persons' names
+		// Compare the genres names
 		if (name == null)
 			return 1;
 		if (o.name == null)

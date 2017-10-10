@@ -43,7 +43,7 @@ public class UserJPADAO extends BaseJPADAO<User> implements UserDAO {
 	 MultiplePersistentObjectsFoundException {
 	 logger.log(Level.FINE, "Retrieving the user whose e-mail is \" {0} \"...", email);
 	
-	 // Constructs the query over the Academic class.
+	 // Constructs the query over the User class.
 	 CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 	 CriteriaQuery<User> cq = cb.createQuery(User.class);
 	 Root<User> root = cq.from(User.class);

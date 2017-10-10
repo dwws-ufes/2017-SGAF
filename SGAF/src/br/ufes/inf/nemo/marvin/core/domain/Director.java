@@ -4,7 +4,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 /**
  * Domain class that represents a crew member specialization as a Director.
- * @author rodol
+ * @author Rodolfo
  *
  */
 @Entity

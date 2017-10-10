@@ -11,7 +11,7 @@ import br.ufes.inf.nemo.marvin.people.domain.Person;
 /**
  * Domain class that represents a crew member of a movie and their most basic attributes, nationality.
  * 
- * @author rodol
+ * @author Rodolfo
  */
 @MappedSuperclass
 public class CrewMember extends Person {

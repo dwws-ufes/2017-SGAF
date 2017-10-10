@@ -37,10 +37,10 @@ public class User extends Person {
 	@Size(max = 32)
 	private String password;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
 	private Set<Review> reviews;
 
-	/** The timestamp of the moment this academic was created. */
+	/** The timestamp of the moment this user was created. */
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date creationDate;
 
