@@ -13,6 +13,7 @@ import br.ufes.inf.nemo.jbutler.ejb.controller.JSFController;
 import br.ufes.inf.nemo.marvin.core.application.RegMovieService;
 import br.ufes.inf.nemo.marvin.core.domain.MarvinConfiguration;
 import br.ufes.inf.nemo.marvin.core.domain.Movie;
+import br.ufes.inf.nemo.marvin.core.domain.User;
 import br.ufes.inf.nemo.marvin.core.exceptions.SystemInstallFailedException;
 
 @Named
@@ -36,10 +37,7 @@ public class RegMovieController extends JSFController {
 
 	/** Input: the movie being registered. */
 	private Movie movie = new Movie();
-
-	/** Input: system configuration information. */
-	private MarvinConfiguration config = new MarvinConfiguration();
-
+	
 	/** The "Register Movie" service. */
 	@EJB
 	private RegMovieService regMovieService;
@@ -62,6 +60,11 @@ public class RegMovieController extends JSFController {
 		// Proceeds to the final view.
 		return VIEW_PATH + "done.xhtml?faces-redirect=true";
 
+	}
+	
+	/** Getter for movie. */
+	public Movie getMovie() {
+		return movie;
 	}
 
 }

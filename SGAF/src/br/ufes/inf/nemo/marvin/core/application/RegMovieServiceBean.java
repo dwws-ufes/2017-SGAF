@@ -1,6 +1,5 @@
 package br.ufes.inf.nemo.marvin.core.application;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -8,7 +7,6 @@ import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
-import br.ufes.inf.nemo.marvin.core.domain.MarvinConfiguration;
 import br.ufes.inf.nemo.marvin.core.domain.Movie;
 import br.ufes.inf.nemo.marvin.core.exceptions.SystemInstallFailedException;
 import br.ufes.inf.nemo.marvin.core.persistence.MarvinConfigurationDAO;
@@ -41,7 +39,7 @@ public class RegMovieServiceBean implements RegMovieService {
 		try {
 			// Register the last update date / creation date.
 			Date now = new Date(System.currentTimeMillis());
-			movie.setLaunchDate(now);
+			movie.setRegisterDate(now);
 			
 			// Saves the movie.
 			logger.log(Level.FINER, "Persisting movie data...\n\t- Title = {0}", new Object[] { movie.getTitle() });
