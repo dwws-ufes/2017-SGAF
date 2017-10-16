@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                template="/resources/#{coreInfo.decorator}/decorator.xhtml">
+	
+	<ui:define name="title"><h:outputText value="#{msgsCore['regMovie.title']}" /></ui:define>
+    
+    <ui:define name="description"><h:outputText value="#{msgsCore['regMovie.title']}" /></ui:define>
+
+  	<ui:define name="body">
+
+		<!-- Shown when the system is not yet installed. -->
+		<h:panelGroup id="regMoviePanel">
+			<p><h:outputText value="#{msgsCore['regMovie.text.instructions']}" /></p>
+
+			<!-- The form to be filled with information on the administrator. -->
+			<ui:decorate template="/resources/#{coreInfo.decorator}/form.xhtml">
+				<ui:param name="formName" value="form" /> 
+				<ui:param name="formLabel" value="#{msgsCore['RegMovie.form']}" />
+				<p:focus />
+
+				<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+					<ui:param name="fieldName" value="name" />
+					<ui:param name="label" value="#{msgsCore['regMovie.field.movie.title']}" />
+					<p:inputText id="name" value="#{regMovieController.movie.title}" required="true" pt:placeholder="#{msgsCore['regMovie.field.movie.title.placeholder']}">
+						<f:ajax event="blur" render="titleField"/>
+					</p:inputText>
+				</ui:decorate>
+
+				<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+					<ui:param name="label" value="#{msgsCore['regMovie.launch']}" />
+					<p:calendar id="launchPopUp" value="#{regMovieController.movie.launchDate}" showOn="button" required="true" />
+				</ui:decorate>
+
+				<ui:decorate template="/resources/#{coreInfo.decorator}/formbuttonpanel-01.xhtml">
+					<p:commandButton action="#{installSystemController.registerAdministrator}" value="#{msgsCore['installSystem.button.registerAdministrator']}" update=":globalMessages form" icon="fa fa-fw fa-save" />
+				</ui:decorate>
+			</ui:decorate>
+		</h:panelGroup>
+	</ui:define>
+</ui:composition>
+
+	
