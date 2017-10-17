@@ -232,6 +232,7 @@
 					<li><h:link outcome="/core/login/index" rendered="#{coreInfo.systemInstalled and not sessionController.loggedIn}"><i class="fa fa-key"></i> <span><h:outputText value="#{msgsCore['core.menu.login']}" /></span></h:link></li>
 					<li><h:link outcome="/core/regMovie/index" rendered="#{sessionController.loggedIn}" ><i class="fa fa-key"></i> <span><h:outputText value="#{msgsCore['regMovie.title']}" /></span></h:link></li>
 					<li><h:link outcome="/core/regActor/index" rendered="#{sessionController.loggedIn}" ><i class="fa fa-key"></i> <span><h:outputText value="#{msgsCore['regActor.title']}" /></span></h:link></li>
+					<li><h:link outcome="/core/regGenre/index" rendered="#{sessionController.loggedIn}" ><i class="fa fa-key"></i> <span><h:outputText value="#{msgsCore['regGenre.title']}" /></span></h:link></li>	
 				</ul>
 				</h:form>
 				<!-- /.sidebar-menu -->

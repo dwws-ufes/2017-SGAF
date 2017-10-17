@@ -10,13 +10,14 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.ufes.inf.nemo.jbutler.ejb.controller.JSFController;
+import br.ufes.inf.nemo.marvin.core.application.RegGenreService;
 import br.ufes.inf.nemo.marvin.core.application.RegMovieService;
-import br.ufes.inf.nemo.marvin.core.domain.Movie;
+import br.ufes.inf.nemo.marvin.core.domain.Genre;
 import br.ufes.inf.nemo.marvin.core.exceptions.SystemInstallFailedException;
 
 @Named
 @ConversationScoped
-public class RegMovieController extends JSFController {
+public class RegGenreController extends JSFController {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 
@@ -24,26 +25,26 @@ public class RegMovieController extends JSFController {
 	 * Path to the folder where the view files (web pages) for this action are
 	 * placed.
 	 */
-	private static final String VIEW_PATH = "/core/regMovie/";
+	private static final String VIEW_PATH = "/core/regGenre/";
 
 	/** The logger. */
-	private static final Logger logger = Logger.getLogger(RegMovieController.class.getCanonicalName());
+	private static final Logger logger = Logger.getLogger(RegGenreController.class.getCanonicalName());
 
 	/** The JSF conversation. */
 	@Inject
 	private Conversation conversation;
 
 	/** Input: the movie being registered. */
-	private Movie movie = new Movie();
+	private Genre genre = new Genre();
 
 	/** The "Register Movie" service. */
 	@EJB
-	private RegMovieService regMovieService;
+	private RegGenreService regGenreService;
 
-	public String saveMovie() {
+	public String saveGenre() {
 
 		try {
-			regMovieService.registerMovie(movie);
+			regGenreService.registerGenre(genre);
 		} catch (SystemInstallFailedException e) {
 			logger.log(Level.SEVERE, "System installation threw exception", e);
 			// addGlobalI18nMessage("msgsCore", FacesMessage.SEVERITY_FATAL,
@@ -59,10 +60,10 @@ public class RegMovieController extends JSFController {
 		return "/index.xhtml?faces-redirect=true";
 
 	}
-
-	/** Getter for movie. */
-	public Movie getMovie() {
-		return movie;
+	
+	/** Getter for genre. */
+	public Genre getGenre() {
+		return genre;
 	}
 
 }
