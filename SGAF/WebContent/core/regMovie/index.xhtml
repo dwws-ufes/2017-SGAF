@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                template="/resources/#{coreInfo.decorator}/decorator.xhtml">
+	
+	<ui:define name="title"><h:outputText value="#{msgsCore['regMovie.title']}" /></ui:define>
+    
+    <ui:define name="description"><h:outputText value="#{msgsCore['regMovie.title']}" /></ui:define>
+
+  	<ui:define name="body">
+
+		<!-- Shown when the system is not yet installed. -->
+		<h:panelGroup id="regMoviePanel">
+			<p><h:outputText value="#{msgsCore['regMovie.text.instructions']}" /></p>
+
+			<!-- The form to be filled with information on the Movie. -->
+			<ui:decorate template="/resources/#{coreInfo.decorator}/form.xhtml">
+				<ui:param name="formName" value="form" /> 
+				<ui:param name="formLabel" value="#{msgsCore['RegMovie.form']}" />
+				<p:focus />
+ 
+				<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+					<ui:param name="fieldName" value="title" />
+					<ui:param name="label" value="#{msgsCore['regMovie.field.movie.title']}" />
+					<p:inputText id="title" value="#{regMovieController.movie.title}" required="true" pt:placeholder="#{msgsCore['regMovie.field.movie.title.placeholder']}">
+						<f:ajax event="blur" render="titleField"/>
+					</p:inputText>
+				</ui:decorate>
+
+				<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+					<ui:param name="fieldName" value="launchDate" />
+					<ui:param name="label" value="#{msgsCore['regMovie.launch']}" />
+					<p:calendar id="launchDate" value="#{regMovieController.movie.launchDate}" required="true" >
+						<f:ajax event="blur" render="launchDateField"/>
+					</p:calendar>
+				</ui:decorate>
+				
+				<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+					<ui:param name="fieldName" value="synopsis" />
+					<ui:param name="label" value="#{msgsCore['regMovie.field.movie.synopsis']}" />
+					<p:inputTextarea id="synopsis" rows="6" cols="60" counter="display" maxlength="400" value="#{regMovieController.movie.synopsis}" required="true" pt:placeholder="#{msgsCore['regMovie.field.movie.synopsis.placeholder']}" counterTemplate="#{msgsCore['regMovie.field.movie.synopsis.counter']}" autoResize="false">
+    					<f:ajax event="blur" render="synopsisField"/>
+    				</p:inputTextarea>
+    				<h:outputText id="display" />
+				</ui:decorate>
+
+				<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+					<ui:param name="fieldName" value="length" />
+					<ui:param name="label" value="#{msgsCore['regMovie.field.movie.length']}" />
+					<p:spinner id="length" value="#{regMovieController.movie.length}" stepFactor="10" required="true">
+						<f:ajax event="blur" render="lengthField"/>
+					</p:spinner>
+				</ui:decorate>
+
+				<ui:decorate template="/resources/#{coreInfo.decorator}/formbuttonpanel-01.xhtml">
+					<p:commandButton action="#{regMovieController.saveMovie}" value="#{msgsCore['regMovie.button.saveMovie']}" update=":globalMessages form" icon="fa fa-fw fa-save" />
+				</ui:decorate>
+			</ui:decorate>
+		</h:panelGroup>
+	</ui:define>
+</ui:composition>
+
+	
