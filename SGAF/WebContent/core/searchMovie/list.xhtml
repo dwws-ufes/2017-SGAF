@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                template="/WEB-INF/decorators/#{coreInfo.decorator}/decorator.xhtml">
+
+	<ui:define name="title"><h:outputText value="#{msgsCore['SearchMovie.title']}" /></ui:define>
+    
+    <ui:define name="description"><h:outputText value="#{msgsCore['SearchMovie.title.description']}" /></ui:define>
+
+	<ui:define name="body">
+		<!-- Filter bar: used to filter the listing (displayed when there is at least one filter available). -->
+		<h:panelGroup id="filterBar" rendered="#{(not empty searchMovieController.filters)}">
+			<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/form-nobox.xhtml">
+				<ui:param name="formName" value="filterForm" />
+
+				<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formfield-filter.xhtml">
+					<p:selectOneMenu id="filter" required="true" value="#{searchMovieController.filterKey}">
+						<f:selectItems value="#{searchMovieController.filters}" var="filter" itemLabel="#{filter.label}" itemValue="#{filter.key}" />
+						<f:ajax event="change" execute="@form" listener="#{searchMovieController.changeFilter}" render="@form :listingForm" />
+					</p:selectOneMenu>
+					<p:inputText id="filterText" required="false" value="#{searchMovieController.filterParam}" rendered="#{searchMovieController.filter.options == null}" />
+					<p:selectOneMenu id="filterSelect" required="false" value="#{searchMovieController.filterParam}" rendered="#{searchMovieController.filter.options != null}">
+						<f:selectItems value="#{manageCoursesController.filter.reversedOptionsLabels}" />
+					</p:selectOneMenu>
+					<p:commandButton action="#{searchMovieController.filter}" value="#{msgs['jbutler.crud.button.filter']}" process="@form" update=":listingForm @form" icon="fa fa-fw fa-search" />
+					<p:commandButton action="#{searchMovieController.cancelFilter}" value="#{msgs['jbutler.crud.button.cancelFilter']}" process="@form" update=":listingForm @form" icon="fa fa-fw fa-close" rendered="#{searchMovieController.filtering}" />
+					<p:commandButton action="#{searchMovieController.clearFilter}" value="#{msgs['jbutler.crud.button.clearFilter']}" process="@form" update=":listingForm @form" icon="fa fa-fw fa-eraser" rendered="#{not searchMovieController.filtering}" />
+				</ui:decorate>
+				<p:hotkey bind="#{msgs['jbutler.crud.hotkey.filterFocus']}" handler="if (findObjectById('filterForm:filterText') != null) findObjectById('filterForm:filterText').focus(); else findObjectById('filterForm:filterSelect').focus();" />
+				<p:hotkey bind="#{msgs['jbutler.crud.hotkey.clearFilter']}" action="#{searchMovieController.cancelFilter}" process="@form" update=":listingForm @form" rendered="#{searchMovieController.filtering}" />
+				<p:hotkey bind="#{msgs['jbutler.crud.hotkey.clearFilter']}" action="#{searchMovieController.clearFilter}" process="@form" update=":listingForm @form" rendered="#{not searchMovieController.filtering}" />
+			</ui:decorate>
+		</h:panelGroup>
+		
+		<!-- The listing form. -->
+		<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/form-nobox.xhtml">
+			<ui:param name="formName" value="listingForm" />
+
+			<p:dataTable
+				widgetVar="listingTable"
+				value="#{manageCoursesController.lazyEntities}" 
+				var="entity" 
+				rows="#{manageCoursesController.maxDataTableRowsPerPage}" 
+				rowsPerPageTemplate="#{manageCoursesController.halfMaxDataTableRowsPerPage},#{manageCoursesController.maxDataTableRowsPerPage},#{manageCoursesController.doubleMaxDataTableRowsPerPage}"
+				lazy="true" 
+				paginator="true" 
+				selection="#{manageCoursesController.selectedEntity}" 
+				selectionMode="single" 
+				paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" 
+				paginatorPosition="bottom" 
+				loadingMessage="#{msgs['jbutler.text.ajax.loading']}" 
+				emptyMessage="#{manageCoursesController.filtering ? msgsCore['manageCourses.text.noEntitiesFiltered'] : msgsCore['manageCourses.text.noEntities']}">
+
+				<p:column headerText="#{msgsCore['manageCourses.field.name']}">
+					<h:outputText value="#{entity.name}" />
+				</p:column>
+
+				<p:column headerText="#{msgsCore['manageCourses.field.academicLevels']}">
+					<h:outputText value="#{entity.academicLevel.name}" />
+				</p:column>
+				
+				<p:column headerText="#{msgsCore['manageCourses.field.courseCode']}">
+					<h:outputText value="#{entity.code}" />
+				</p:column>
+
+				<p:ajax event="rowSelect" update=":listingForm:buttonsGroup" />
+				<p:ajax event="rowUnselect" update=":listingForm:buttonsGroup" />
+				
+				
+			</p:dataTable>
+			<p:hotkey bind="ctrl+left" handler="goToFirstPage(listingTable);" />
+			<p:hotkey bind="left" handler="goToPreviousPage(listingTable);" />
+			<p:hotkey bind="right" handler="goToNextPage(listingTable);" />
+			<p:hotkey bind="ctrl+right" handler="goToLastPage(listingTable);" />
+
+			<!-- Buttons shown below the listing. -->
+			<h:panelGroup id="buttonsGroup">
+				<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formbuttonpanel-04.xhtml">
+					<p:commandButton action="#{manageCoursesController.create}" value="#{msgs['jbutler.crud.button.create']}" icon="fa fa-fw fa-plus-circle" />
+					<p:commandButton action="#{manageCoursesController.retrieve}" value="#{msgs['jbutler.crud.button.retrieve']}" icon="fa fa-fw fa-file-text" disabled="#{manageCoursesController.selectedEntity == null}" />
+					<p:commandButton action="#{manageCoursesController.update}" value="#{msgs['jbutler.crud.button.update']}" icon="fa fa-fw fa-refresh" disabled="#{manageCoursesController.selectedEntity == null}" />
+					<p:commandButton action="#{manageCoursesController.trash}" value="#{msgs['jbutler.crud.button.delete']}" icon="fa fa-fw fa-trash-o" disabled="#{manageCoursesController.selectedEntity == null}" process="@this" update=":listingForm:trashGroup" />
+				</ui:decorate>
+				<p:hotkey bind="#{msgs['jbutler.crud.hotkey.create']}" action="#{manageCoursesController.create}" />
+				<p:hotkey bind="#{msgs['jbutler.crud.hotkey.retrieve']}" action="#{manageCoursesController.retrieve}" rendered="#{manageCoursesController.selectedEntity != null}" />
+				<p:hotkey bind="#{msgs['jbutler.crud.hotkey.update']}" action="#{manageCoursesController.update}" rendered="#{manageCoursesController.selectedEntity != null}" />
+				<p:hotkey bind="#{msgs['jbutler.crud.hotkey.delete']}" action="#{manageCoursesController.trash}" rendered="#{manageCoursesController.selectedEntity != null}" process="@this" update=":listingForm:trashGroup" />
+			</h:panelGroup>
+			
+
+			<!-- The trash panel: shows entities that have been selected for deletion. -->
+			<h:panelGroup id="trashGroup">
+				<h:panelGroup rendered="#{not empty manageCoursesController.trashCan}">
+					<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/form-danger.xhtml">
+						<ui:param name="formName" value="trashForm" />
+						<ui:param name="formLabel" value="#{msgs['jbutler.crud.text.trashHeader']}" />
+						<p:dataList value="#{manageCoursesController.trashCan}" var="entity" type="ordered">
+			            	#{entity.name} 
+			            </p:dataList>
+						<ui:decorate template="/WEB-INF/decorators/#{coreInfo.decorator}/formbuttonpanel-02.xhtml">
+							<p:commandButton action="#{manageCoursesController.cancelDeletion}" value="#{msgs['jbutler.crud.button.cancelDeletion']}" icon="fa fa-fw fa-close" process="@this" update=":listingForm" />
+							<p:commandButton action="#{manageCoursesController.delete}" value="#{msgs['jbutler.crud.button.confirmDeletion']}" icon="fa fa-fw fa-trash-o" process="@this" update=":globalMessages :listingForm" />
+						</ui:decorate>
+						<p:hotkey bind="#{msgs['jbutler.crud.hotkey.cancelDeletion']}" action="#{manageCoursesController.cancelDeletion}" process="@this" update=":listingForm" />
+						<p:hotkey bind="#{msgs['jbutler.crud.hotkey.confirmDeletion']}" action="#{manageCoursesController.delete}" process="@this" update=":globalMessages :listingForm"/>
+					</ui:decorate>
+				</h:panelGroup>
+			</h:panelGroup>
+		</ui:decorate>
+	</ui:define>
+</ui:composition>
