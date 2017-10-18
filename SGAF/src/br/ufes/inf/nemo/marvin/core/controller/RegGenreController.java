@@ -11,7 +11,6 @@ import javax.inject.Named;
 
 import br.ufes.inf.nemo.jbutler.ejb.controller.JSFController;
 import br.ufes.inf.nemo.marvin.core.application.RegGenreService;
-import br.ufes.inf.nemo.marvin.core.application.RegMovieService;
 import br.ufes.inf.nemo.marvin.core.domain.Genre;
 import br.ufes.inf.nemo.marvin.core.exceptions.SystemInstallFailedException;
 

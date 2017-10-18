@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                template="/resources/#{coreInfo.decorator}/decorator.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="#{msgsCore['manageMovies.title.create']}" rendered="#{(! manageMoviesController.readOnly) and (manageMoviesController.selectedEntity.id == null)}" />
+		<h:outputText value="#{msgsCore['manageMovies.title.update']}" rendered="#{(! manageMoviesController.readOnly) and (manageMoviesController.selectedEntity.id != null)}" />
+		<h:outputText value="#{msgsCore['manageMovies.title.retrieve']}" rendered="#{manageMoviesController.readOnly}" />
+	</ui:define>
+    
+    <ui:define name="description">
+		<h:outputText value="#{msgsCore['manageMovies.title.create.description']}" rendered="#{(! manageMoviesController.readOnly) and (manageMoviesController.selectedEntity.id == null)}" />
+		<h:outputText value="#{msgsCore['manageMovies.title.update.description']}" rendered="#{(! manageMoviesController.readOnly) and (manageMoviesController.selectedEntity.id != null)}" />
+		<h:outputText value="#{msgsCore['manageMovies.title.retrieve.description']}" rendered="#{manageMoviesController.readOnly}" />
+    </ui:define>
+    
+	<ui:define name="body">
+		<ui:decorate template="/resources/#{coreInfo.decorator}/form.xhtml">
+			<ui:param name="formName" value="form" />
+			<ui:param name="formLabel" value="#{msgsCore['manageMovies.form.title']}" />
+			<p:hotkey bind="#{msgs['jbutler.crud.hotkey.focusFirstField']}" handler="findObjectById('form:name').focus();" />
+
+			<!-- Field: title. -->
+			<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+				<ui:param name="fieldName" value="title" />
+				<ui:param name="label" value="#{msgsCore['manageMovies.field.title']}" />
+				<p:inputText id="title" value="#{manageMoviesController.selectedEntity.title}" required="true" pt:placeholder="#{msgsCore['manageMovies.field.title.placeholder']}" disabled="#{manageMoviesController.readOnly}">
+					<p:ajax event="blur" update="titleField" />
+				</p:inputText>
+			</ui:decorate>
+			
+			<!-- Field: Launch. -->
+			<h:panelGroup>
+				<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+					<ui:param name="fieldName" value="launch" />
+					<ui:param name="label" value="#{msgsCore['manageMovies.field.launch']}" />
+					<p:calendar id="launch" value="#{manageMoviesController.selectedEntity.launch}" required="true" disabled="#{manageMoviesController.readOnly}" >
+						<f:convertDateTime type="date" pattern="#{msgs['jbutler.format.datetime.java']}" />
+						<f:ajax event="blur" render="launchDateField"/>
+					</p:calendar>
+				</ui:decorate>
+			</h:panelGroup>
+			
+			<!-- Field: synopsis. -->
+			<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+					<ui:param name="fieldName" value="synopsis" />
+					<ui:param name="label" value="#{msgsCore['manageMovies.field.synopsis']}" />
+					<p:inputTextarea id="synopsis" rows="6" cols="60" counter="display"
+					 maxlength="400" value="#{manageMoviesController.selectedEntity.synopsis}" required="true" 
+					 pt:placeholder="#{msgsCore['manageMovies.field.synopsis.placeholder']}" 
+					 counterTemplate="#{msgsCore['field.textField.counter']}" autoResize="false" disabled="#{manageMoviesController.readOnly}">
+    					<f:ajax event="blur" render="synopsisField"/>
+    				</p:inputTextarea>
+    				<h:outputText id="display" />
+			</ui:decorate>
+			
+			<!-- Field: length. -->
+			<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+					<ui:param name="fieldName" value="length" />
+					<ui:param name="label" value="#{msgsCore['manageMovies.field.length']}" />
+					<p:spinner id="length" value="#{manageMoviesController.selectedEntity.length}" stepFactor="10" required="true" disabled="#{manageMoviesController.readOnly}">
+						<f:ajax event="blur" render="lengthField"/>
+					</p:spinner>
+			</ui:decorate>
+
+			<h:panelGroup rendered="#{! manageMoviesController.readOnly}">
+				<ui:decorate template="/resources/#{coreInfo.decorator}/formbuttonpanel-02.xhtml">
+					<p:commandButton id="cancelButton" action="#{manageMoviesController.list}" value="#{msgs['jbutler.crud.button.cancel']}" immediate="true" icon="fa fa-fw fa-close" />
+					<p:commandButton id="saveButton" action="#{manageMoviesController.save}" value="#{msgs['jbutler.crud.button.save']}" update=":form :globalMessages" icon="fa fa-fw fa-save" />
+					<p:defaultCommand target="saveButton" />
+					<p:hotkey bind="#{msgs['jbutler.crud.hotkey.backToList']}" action="#{manageMoviesController.list}" immediate="true" />
+				</ui:decorate>
+			</h:panelGroup>
+			<h:panelGroup rendered="#{manageMoviesController.readOnly}">
+				<ui:decorate template="/resources/#{coreInfo.decorator}/formbuttonpanel-01.xhtml">
+					<p:commandButton id="backButton" action="#{manageMoviesController.list}" value="#{msgs['jbutler.crud.button.back']}" immediate="true" icon="fa fa-fw fa-arrow-circle-left" />
+					<p:hotkey bind="#{msgs['jbutler.crud.hotkey.backToList']}" action="#{manageInstitutionsController.list}" immediate="true" />
+				</ui:decorate>
+			</h:panelGroup>
+		</ui:decorate>
+    </ui:define>
+</ui:composition>
