@@ -31,7 +31,7 @@ public class Movie extends PersistentObjectSupport implements Comparable<Movie> 
 	/** The Movie's title. */
 	@Basic
 	@NotNull
-	@Size(max = 100)
+	@Size(max = 400)
 	private String title;
 
 	/** The Movie's length. */
@@ -103,6 +103,14 @@ public class Movie extends PersistentObjectSupport implements Comparable<Movie> 
 
 	public void setRegisterDate(Date registerDate) {
 		this.registerDate = registerDate;
+	}
+	
+	public double AverageScore() {
+		double scoreSum = 0.0;
+		for(Review review: reviews) {
+			scoreSum += review.getScore();
+		}
+		return scoreSum/reviews.size();
 	}
 
 	/** @see java.lang.Comparable#compareTo(java.lang.Object) */

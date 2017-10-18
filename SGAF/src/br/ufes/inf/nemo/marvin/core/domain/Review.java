@@ -11,7 +11,7 @@ import br.ufes.inf.nemo.jbutler.ejb.persistence.PersistentObjectSupport;
 /**
  * The analysis of a movie by a user.
  * 
- * @author rodol
+ * @author Rodolfo
  *
  */
 @Entity
@@ -22,8 +22,7 @@ public class Review extends PersistentObjectSupport implements Comparable<Review
 
 	/** The score of the user to a Movie. */
 	@Basic
-	@NotNull
-	protected Long length;
+	protected double score;
 
 	/** Analysis of the User to a Movie. **/
 	@Basic
@@ -37,17 +36,13 @@ public class Review extends PersistentObjectSupport implements Comparable<Review
 	@ManyToOne
 	private Movie movie;
 	
-	public Long getLength() {
-		return length;
+	public double getScore() {
+		return score;
 	}
 
-
-
-	public void setLength(Long length) {
-		this.length = length;
+	public void setScore(double score) {
+		this.score = score;
 	}
-
-
 
 	public String getAnalysis() {
 		return analysis;
