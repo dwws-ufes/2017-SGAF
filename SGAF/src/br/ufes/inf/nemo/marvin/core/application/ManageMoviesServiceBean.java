@@ -3,6 +3,7 @@ package br.ufes.inf.nemo.marvin.core.application;
 import java.util.logging.Logger;
 
 import javax.annotation.Resource;
+import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
@@ -13,6 +14,7 @@ import br.ufes.inf.nemo.marvin.core.domain.Movie;
 import br.ufes.inf.nemo.marvin.core.persistence.MovieDAO;
 
 @Stateless
+@PermitAll
 public class ManageMoviesServiceBean extends CrudServiceBean<Movie> implements ManageMoviesService {
 
 	/** Serialization id. */
