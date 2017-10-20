@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                template="/resources/#{coreInfo.decorator}/decorator.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="#{msgsCore['manageActors.title.create']}" rendered="#{(! manageActorsController.readOnly) and (manageActorsController.selectedEntity.id == null)}" />
+		<h:outputText value="#{msgsCore['manageActors.title.update']}" rendered="#{(! manageActorsController.readOnly) and (manageActorsController.selectedEntity.id != null)}" />
+		<h:outputText value="#{msgsCore['manageActors.title.retrieve']}" rendered="#{manageActorsController.readOnly}" />
+	</ui:define>
+    
+    <ui:define name="description">
+		<h:outputText value="#{msgsCore['manageActors.title.create.description']}" rendered="#{(! manageActorsController.readOnly) and (manageActorsController.selectedEntity.id == null)}" />
+		<h:outputText value="#{msgsCore['manageActors.title.update.description']}" rendered="#{(! manageActorsController.readOnly) and (manageActorsController.selectedEntity.id != null)}" />
+		<h:outputText value="#{msgsCore['manageActors.title.retrieve.description']}" rendered="#{manageActorsController.readOnly}" />
+    </ui:define>
+
+	<ui:define name="body">
+		<ui:decorate template="/resources/#{coreInfo.decorator}/form.xhtml">
+			<ui:param name="formName" value="form" />
+			<ui:param name="formLabel" value="#{msgsCore['manageActors.form.title']}" />
+			<p:hotkey bind="#{msgs['jbutler.crud.hotkey.focusFirstField']}" handler="findObjectById('form:name').focus();" />
+
+			<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+				<ui:param name="fieldName" value="name" />
+				<ui:param name="label" value="#{msgsCore['manageActors.form.name']}" />
+				<p:inputText id="name" value="#{manageActorsController.selectedEntity.name}" required="true" pt:placeholder="#{msgsCore['manageActors.form.name.placeholder']}" disabled="#{manageActorsController.readOnly}">
+					<p:ajax event="blur" update="nameField" />
+				</p:inputText>
+			</ui:decorate>
+			
+			<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+				<ui:param name="fieldName" value="birthDate" />
+				<ui:param name="label" value="#{msgsCore['manageActors.form.birthDate']}" />
+				<p:calendar id="birthDate" value="#{manageActorsController.selectedEntity.birthDate}" required="true" pt:placeholder="#{msgsCore['manageActors.form.birthDate.placeholder']}" disabled="#{manageActorsController.readOnly}">
+					<p:ajax event="blur" update="birthDateField" />
+				</p:calendar>
+			</ui:decorate>
+			
+			<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+				<ui:param name="fieldName" value="gender" />
+				<ui:param name="label" value="#{msgsCore['manageActors.form.gender']}" />
+				<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+			        <p:selectOneRadio id="gender" value="#{manageActorsController.selectedEntity.gender}">
+			            <f:selectItem itemLabel="#{msgsCore['manageActors.form.gender.male']}" itemValue='M' />
+			            <f:selectItem itemLabel="#{msgsCore['manageActors.form.gender.female']}" itemValue='F' />
+			        </p:selectOneRadio>
+			    </h:panelGrid>
+			</ui:decorate>
+
+			<h:panelGroup rendered="#{! manageActorsController.readOnly}">
+				<ui:decorate template="/resources/#{coreInfo.decorator}/formbuttonpanel-02.xhtml">
+					<p:commandButton id="cancelButton" action="#{manageActorsController.list}" value="#{msgs['jbutler.crud.button.cancel']}" immediate="true" icon="fa fa-fw fa-close" />
+					<p:commandButton id="saveButton" action="#{manageActorsController.save}" value="#{msgs['jbutler.crud.button.save']}" update=":form :globalMessages" icon="fa fa-fw fa-save" />
+					<p:defaultCommand target="saveButton" />
+					<p:hotkey bind="#{msgs['jbutler.crud.hotkey.backToList']}" action="#{manageActorsController.list}" immediate="true" />
+				</ui:decorate>
+			</h:panelGroup>
+			<h:panelGroup rendered="#{manageActorsController.readOnly}">
+				<ui:decorate template="/resources/#{coreInfo.decorator}/formbuttonpanel-01.xhtml">
+					<p:commandButton id="backButton" action="#{manageActorsController.list}" value="#{msgs['jbutler.crud.button.back']}" immediate="true" icon="fa fa-fw fa-arrow-circle-left" />
+					<p:hotkey bind="#{msgs['jbutler.crud.hotkey.backToList']}" action="#{manageActorsController.list}" immediate="true" />
+				</ui:decorate>
+			</h:panelGroup>
+		</ui:decorate>
+    </ui:define>
+</ui:composition>
