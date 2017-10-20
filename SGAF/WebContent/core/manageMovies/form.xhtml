@@ -38,10 +38,10 @@
 			<!-- Field: Launch. -->
 			<h:panelGroup>
 				<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
-					<ui:param name="fieldName" value="launch" />
-					<ui:param name="label" value="#{msgsCore['manageMovies.field.launch']}" />
-					<p:calendar id="launch" value="#{manageMoviesController.selectedEntity.launch}" required="true" disabled="#{manageMoviesController.readOnly}" >
-						<f:convertDateTime type="date" pattern="#{msgs['jbutler.format.datetime.java']}" />
+					<ui:param name="fieldName" value="launchDate" />
+					<ui:param name="label" value="#{msgsCore['manageMovies.field.launchDate']}" />
+					<p:calendar id="launchDate" value="#{manageMoviesController.selectedEntity.launchDate}" required="true" disabled="#{manageMoviesController.readOnly}" >
+						<!-- <f:convertDateTime type="date" pattern="#{msgs['jbutler.format.datetime.java']}" /> -->
 						<f:ajax event="blur" render="launchDateField"/>
 					</p:calendar>
 				</ui:decorate>
