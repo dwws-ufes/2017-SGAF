@@ -74,8 +74,8 @@
 				<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
 					<ui:param name="fieldName" value="cast" />
 					<ui:param name="label" value="#{msgsCore['manageMovies.field.cast']}" />
-					    <p:autoComplete id="cast" multiple="true" maxResults="10" minQueryLength="2" value="#{manageMoviesController.selectedEntity.actors}" completeMethod="#{manageMoviesController.completeActor}"
-                        var="actor" itemLabel="#{actor.name}" itemValue="#{actor}" converter="actorConverter" forceSelection="true">				 
+					    <p:autoComplete id="cast" multiple="true" maxResults="10" minQueryLength="2" value="#{manageMoviesController.selectedActors}" completeMethod="#{manageMoviesController.completeActor}"
+                        var="actor" itemLabel="#{actor.name}" itemValue="#{actor}" converter="#{actorConverter}" forceSelection="true">				 
 				            <p:column>
 				                <h:outputText value="#{actor.name}" />
 				            </p:column>

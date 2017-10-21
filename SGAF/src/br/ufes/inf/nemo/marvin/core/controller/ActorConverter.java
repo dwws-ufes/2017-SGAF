@@ -2,23 +2,25 @@ package br.ufes.inf.nemo.marvin.core.controller;
 
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
-import javax.faces.convert.FacesConverter;
 
 import br.ufes.inf.nemo.marvin.core.application.ManageActorsService;
 import br.ufes.inf.nemo.marvin.core.domain.Actor;
 
-@FacesConverter("actorConverter")
+@ManagedBean
+@RequestScoped
 public class ActorConverter implements Converter {
 
 	@EJB
-	private ManageActorsService manageActorsService;
-
+	ManageActorsService manageActorsService;
+	
 	@Override
-	public Object getAsObject(FacesContext arg0, UIComponent arg1, String value) {
+	public Object getAsObject(FacesContext fc, UIComponent arg1, String value) {
 		if (value != null && value.trim().length() > 0) {
 			try {
 				return manageActorsService.retrieve(Long.valueOf(value));
