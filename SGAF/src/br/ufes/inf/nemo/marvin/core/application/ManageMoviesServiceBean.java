@@ -23,7 +23,7 @@ public class ManageMoviesServiceBean extends CrudServiceBean<Movie> implements M
 	/** The logger. */
 	private static final Logger logger = Logger.getLogger(InstallSystemServiceBean.class.getCanonicalName());
 
-	/** The DAO for Academic objects. */
+	/** The DAO for Movie objects. */
 	@EJB
 	private MovieDAO movieDAO;
 

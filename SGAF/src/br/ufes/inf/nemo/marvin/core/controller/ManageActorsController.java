@@ -1,6 +1,8 @@
 package br.ufes.inf.nemo.marvin.core.controller;
 
 import javax.ejb.EJB;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Named;
 
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
 import br.ufes.inf.nemo.jbutler.ejb.application.filters.SimpleFilter;
@@ -8,12 +10,14 @@ import br.ufes.inf.nemo.jbutler.ejb.controller.CrudController;
 import br.ufes.inf.nemo.marvin.core.application.ManageActorsService;
 import br.ufes.inf.nemo.marvin.core.domain.Actor;
 
+@Named
+@SessionScoped
 public class ManageActorsController extends CrudController<Actor> {
 
-	/** TODO: document this field. */
+	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 
-	/** TODO: document this field. */
+	/** The "Manage Actors" service. */
 	@EJB
 	private ManageActorsService manageActorsService;
 

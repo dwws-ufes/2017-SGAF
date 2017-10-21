@@ -17,7 +17,7 @@ public class ManageMoviesController extends CrudController<Movie> {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 
-	/** The "Register Movie" service. */
+	/** The "Manage Movies" service. */
 	@EJB
 	private ManageMoviesService manageMoviesService;
 
