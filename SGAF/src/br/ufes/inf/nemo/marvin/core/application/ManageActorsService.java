@@ -1,8 +1,13 @@
 package br.ufes.inf.nemo.marvin.core.application;
 
+import java.util.List;
+
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
+import br.ufes.inf.nemo.jbutler.ejb.application.filters.Filter;
 import br.ufes.inf.nemo.marvin.core.domain.Actor;
 
 public interface ManageActorsService extends CrudService<Actor> {
 
+	public List<Actor> filterNameWith(Filter<?> filter, String value, int MaxResults);
+	
 }

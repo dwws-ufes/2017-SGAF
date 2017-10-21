@@ -39,7 +39,7 @@
 			<h:panelGroup>
 				<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
 					<ui:param name="fieldName" value="launchDate" />
-					<ui:param name="label" value="#{msgsCore['manageMovies.field.launchDate']}" />
+					<ui:param name="label" value="#{msgsCore['manageMovies.form.launchDate']}" />
 					<p:calendar id="launchDate" value="#{manageMoviesController.selectedEntity.launchDate}" required="true" disabled="#{manageMoviesController.readOnly}" >
 						<!-- <f:convertDateTime type="date" pattern="#{msgs['jbutler.format.datetime.java']}" /> -->
 						<f:ajax event="blur" render="launchDateField"/>
@@ -64,10 +64,24 @@
 			<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
 					<ui:param name="fieldName" value="length" />
 					<ui:param name="label" value="#{msgsCore['manageMovies.field.length']}" />
-					<p:spinner id="length" value="#{manageMoviesController.selectedEntity.length}" stepFactor="10" required="true" disabled="#{manageMoviesController.readOnly}">
+					<p:spinner id="length" value="#{manageMoviesController.selectedEntity.length}" stepFactor="10" required="true" disabled="#selectedActors.readOnly}">
 						<f:ajax event="blur" render="lengthField"/>
 					</p:spinner>
 			</ui:decorate>
+			
+			<!-- form: Add Actors. -->
+			<h:panelGroup rendered="#{! manageMoviesController.readOnly}">
+				<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+					<ui:param name="fieldName" value="cast" />
+					<ui:param name="label" value="#{msgsCore['manageMovies.field.cast']}" />
+					    <p:autoComplete id="cast" multiple="true" maxResults="10" minQueryLength="2" value="#{manageMoviesController.selectedEntity.actors}" completeMethod="#{manageMoviesController.completeActor}"
+                        var="actor" itemLabel="#{actor.name}" itemValue="#{actor}" converter="actorConverter" forceSelection="true">				 
+				            <p:column>
+				                <h:outputText value="#{actor.name}" />
+				            </p:column>
+				        </p:autoComplete>
+				</ui:decorate>
+			</h:panelGroup>
 
 			<h:panelGroup rendered="#{! manageMoviesController.readOnly}">
 				<ui:decorate template="/resources/#{coreInfo.decorator}/formbuttonpanel-02.xhtml">

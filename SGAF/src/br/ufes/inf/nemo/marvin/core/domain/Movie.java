@@ -105,6 +105,38 @@ public class Movie extends PersistentObjectSupport implements Comparable<Movie> 
 		this.registerDate = registerDate;
 	}
 	
+	public Set<Review> getReviews() {
+		return reviews;
+	}
+
+	public void setReviews(Set<Review> reviews) {
+		this.reviews = reviews;
+	}
+
+	public Set<Genre> getGenres() {
+		return genres;
+	}
+
+	public void setGenres(Set<Genre> genres) {
+		this.genres = genres;
+	}
+
+	public Set<Director> getDirectors() {
+		return directors;
+	}
+
+	public void setDirectors(Set<Director> directors) {
+		this.directors = directors;
+	}
+
+	public Set<Actor> getActors() {
+		return actors;
+	}
+
+	public void setActors(Set<Actor> actors) {
+		this.actors = actors;
+	}
+
 	public double AverageScore() {
 		double scoreSum = 0.0;
 		for(Review review: reviews) {
