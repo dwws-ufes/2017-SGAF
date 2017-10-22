@@ -22,39 +22,54 @@ public class Review extends PersistentObjectSupport implements Comparable<Review
 
 	/** The score of the user to a Movie. */
 	@Basic
-	protected double score;
+	@NotNull
+	protected Double score;
 
 	/** Analysis of the User to a Movie. **/
 	@Basic
 	@NotNull
-	@Size(max = 100)
+	@Size(max = 400)
 	protected String analysis;
 	
 	@ManyToOne
+	@NotNull
 	private User user;
 	
 	@ManyToOne
+	@NotNull
 	private Movie movie;
-	
-	public double getScore() {
-		return score;
-	}
-
-	public void setScore(double score) {
-		this.score = score;
-	}
 
 	public String getAnalysis() {
 		return analysis;
 	}
 
-
-
 	public void setAnalysis(String analysis) {
 		this.analysis = analysis;
 	}
+	
+	public User getUser() {
+		return user;
+	}
 
+	public void setUser(User user) {
+		this.user = user;
+	}
 
+	public Movie getMovie() {
+		return movie;
+	}
+
+	public void setMovie(Movie movie) {
+		this.movie = movie;
+	}
+
+	public Double getScore() {
+		return score;
+	}
+
+	public void setScore(Double score) {
+		this.score = score;
+	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;

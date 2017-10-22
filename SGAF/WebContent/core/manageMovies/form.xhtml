@@ -64,7 +64,7 @@
 			<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
 					<ui:param name="fieldName" value="length" />
 					<ui:param name="label" value="#{msgsCore['manageMovies.field.length']}" />
-					<p:spinner id="length" value="#{manageMoviesController.selectedEntity.length}" stepFactor="10" required="true" disabled="#selectedActors.readOnly}">
+					<p:spinner id="length" value="#{manageMoviesController.selectedEntity.length}" stepFactor="10" required="true" disabled="#{manageMoviesController.readOnly}">
 						<f:ajax event="blur" render="lengthField"/>
 					</p:spinner>
 			</ui:decorate>
@@ -82,7 +82,7 @@
 				        </p:autoComplete>
 				</ui:decorate>
 			</h:panelGroup>
-
+			
 			<h:panelGroup rendered="#{! manageMoviesController.readOnly}">
 				<ui:decorate template="/resources/#{coreInfo.decorator}/formbuttonpanel-02.xhtml">
 					<p:commandButton id="cancelButton" action="#{manageMoviesController.list}" value="#{msgs['jbutler.crud.button.cancel']}" immediate="true" icon="fa fa-fw fa-close" />
@@ -97,6 +97,34 @@
 					<p:hotkey bind="#{msgs['jbutler.crud.hotkey.backToList']}" action="#{manageInstitutionsController.list}" immediate="true" />
 				</ui:decorate>
 			</h:panelGroup>
+		</ui:decorate>
+		<ui:decorate template="/resources/#{coreInfo.decorator}/form.xhtml" rendered="#{manageMoviesController.readOnly}">
+			<ui:param name="formName" value="formReview" />
+			<ui:param name="formLabel" value="#{msgsCore['addReview.form.title']}" />
+			<h:panelGroup>
+					<!-- Field: Review Score. -->
+					<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:param name="fieldName" value="score" />
+							<ui:param name="label" value="#{msgsCore['addReview.field.score']}" />
+							<p:rating id="score" value="#{addReviewController.scoreStars}" required="true" disabled="#{! manageMoviesController.readOnly}"/>
+					</ui:decorate>
+				
+					<!-- Field: Review Analysis. -->
+					<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+							<ui:param name="fieldName" value="analysis" />
+							<ui:param name="label" value="#{msgsCore['addReview.field.analysis']}" />
+							<p:inputTextarea id="analysis" rows="6" cols="60" counter="displayAnalysis"
+							 maxlength="400" value="#{addReviewController.newReview.analysis}" required="true" 
+							 pt:placeholder="#{msgsCore['addReview.field.synopsis.placeholder']}" 
+							 counterTemplate="#{msgsCore['field.textField.counter']}" autoResize="false" disabled="#{! manageMoviesController.readOnly}">
+		    					<f:ajax event="blur" render="analysisField"/>
+		    				</p:inputTextarea>
+		    				<h:outputText id="displayAnalysis" />
+					</ui:decorate>
+					<p:commandButton id="reviewSaveButton" action="#{addReviewController.save}" value="#{msgs['jbutler.crud.button.save']}" update=":formReview :globalMessages" icon="fa fa-fw fa-save">
+						<f:setPropertyActionListener target="#{addReviewController.selectedMovie}" value="#{manageMoviesController.selectedEntity}" />
+					</p:commandButton>
+				</h:panelGroup>
 		</ui:decorate>
     </ui:define>
 </ui:composition>

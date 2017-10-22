@@ -63,7 +63,7 @@ public class SessionInformationBean implements SessionInformation {
 				logger.log(Level.FINEST, "Passwords match for user \"{0}\".", username);
 
 				// Login successful. Registers the current user in the session.
-				logger.log(Level.FINE, "Academic \"{0}\" successfully logged in.", username);
+				logger.log(Level.FINE, "User \"{0}\" successfully logged in.", username);
 				currentUser = user;
 				pwd = null;
 
