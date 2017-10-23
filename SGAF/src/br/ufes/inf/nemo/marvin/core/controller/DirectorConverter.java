@@ -9,24 +9,24 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 
-import br.ufes.inf.nemo.marvin.core.application.ManageActorsService;
-import br.ufes.inf.nemo.marvin.core.domain.Actor;
+import br.ufes.inf.nemo.marvin.core.application.ManageDirectorsService;
+import br.ufes.inf.nemo.marvin.core.domain.Director;
 
 @ManagedBean
 @RequestScoped
-public class ActorConverter implements Converter {
+public class DirectorConverter implements Converter {
 
 	@EJB
-	private ManageActorsService manageActorsService;
+	private ManageDirectorsService manageDirectorsService;
 	
 	@Override
 	public Object getAsObject(FacesContext fc, UIComponent uic, String value) {
 		if (value != null && value.trim().length() > 0) {
 			try {
-				return manageActorsService.retrieve(Long.valueOf(value));
+				return manageDirectorsService.retrieve(Long.valueOf(value));
 			} catch (NumberFormatException e) {
 				throw new ConverterException(
-						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid actor id."));
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid director id."));
 			}
 		} else {
 			return null;
@@ -35,7 +35,7 @@ public class ActorConverter implements Converter {
 
 	@Override
 	public String getAsString(FacesContext fc, UIComponent uic, Object object) {
-		return String.valueOf(((Actor) object).getId());
+		return String.valueOf(((Director) object).getId());
 	}
 
 }

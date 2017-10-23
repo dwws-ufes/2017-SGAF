@@ -9,24 +9,24 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 
-import br.ufes.inf.nemo.marvin.core.application.ManageActorsService;
-import br.ufes.inf.nemo.marvin.core.domain.Actor;
+import br.ufes.inf.nemo.marvin.core.application.ManageGenresService;
+import br.ufes.inf.nemo.marvin.core.domain.Genre;
 
 @ManagedBean
 @RequestScoped
-public class ActorConverter implements Converter {
-
-	@EJB
-	private ManageActorsService manageActorsService;
+public class GenreConverter implements Converter {
 	
+	@EJB
+	private ManageGenresService manageGenresService;
+
 	@Override
 	public Object getAsObject(FacesContext fc, UIComponent uic, String value) {
 		if (value != null && value.trim().length() > 0) {
 			try {
-				return manageActorsService.retrieve(Long.valueOf(value));
+				return manageGenresService.retrieve(Long.valueOf(value));
 			} catch (NumberFormatException e) {
 				throw new ConverterException(
-						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid actor id."));
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid genre id."));
 			}
 		} else {
 			return null;
@@ -35,7 +35,7 @@ public class ActorConverter implements Converter {
 
 	@Override
 	public String getAsString(FacesContext fc, UIComponent uic, Object object) {
-		return String.valueOf(((Actor) object).getId());
+		return String.valueOf(((Genre) object).getId());
 	}
 
 }

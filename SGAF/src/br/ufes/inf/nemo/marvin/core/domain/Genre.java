@@ -44,7 +44,7 @@ public class Genre extends PersistentObjectSupport implements Comparable<Genre> 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date creationDate;
 
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "genres")
 	private Set<Movie> movies;
 
 	public String getName() {

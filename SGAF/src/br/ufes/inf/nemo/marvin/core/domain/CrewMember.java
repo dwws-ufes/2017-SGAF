@@ -18,7 +18,4 @@ public class CrewMember extends Person {
 	/** Serialization id. */
 	private static final long serialVersionUID = 1L;
 	
-	@ManyToMany(fetch = FetchType.LAZY)
-	private Set<Movie> movies;
-	
 }

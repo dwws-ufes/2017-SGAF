@@ -13,8 +13,12 @@ import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
 import br.ufes.inf.nemo.jbutler.ejb.application.filters.SimpleFilter;
 import br.ufes.inf.nemo.jbutler.ejb.controller.CrudController;
 import br.ufes.inf.nemo.marvin.core.application.ManageActorsService;
+import br.ufes.inf.nemo.marvin.core.application.ManageDirectorsService;
+import br.ufes.inf.nemo.marvin.core.application.ManageGenresService;
 import br.ufes.inf.nemo.marvin.core.application.ManageMoviesService;
 import br.ufes.inf.nemo.marvin.core.domain.Actor;
+import br.ufes.inf.nemo.marvin.core.domain.Director;
+import br.ufes.inf.nemo.marvin.core.domain.Genre;
 import br.ufes.inf.nemo.marvin.core.domain.Movie;
 
 @Named
@@ -31,15 +35,28 @@ public class ManageMoviesController extends CrudController<Movie> {
 	/** The "Manage Movies" service. */
 	@EJB
 	private ManageActorsService manageActorsService;
+	
+	@EJB
+	private ManageDirectorsService manageDirectorsService;
+	
+	@EJB
+	private ManageGenresService manageGenresService;
 
 	private static final Logger logger = Logger.getLogger(InstallSystemController.class.getCanonicalName());
 
 	private List<Actor> selectedActors;
+	private List<Director> selectedDirectors;
+	private List<Genre> selectedGenres;
 
 	public List<Actor> completeActor(String query) {
 		return manageActorsService.filterNameWith((new SimpleFilter("manageMovies.filter.Actor.byName", "name",
 				getI18nMessage("msgsCore", "ManageMovies.text.filter.Actor.byName"))), query, 10);
 	}
+	
+	public List<Director> completeDirector(String query) {
+		return manageDirectorsService.filterNameWith((new SimpleFilter("manageMovies.filter.Director.byName", "name",
+				getI18nMessage("msgsCore", "ManageMovies.text.filter.Director.byName"))), query, 10);
+	} 
 
 	/** @see br.ufes.inf.nemo.jbutler.ejb.controller.CrudController#getCrudService() */
 	@Override
@@ -56,10 +73,16 @@ public class ManageMoviesController extends CrudController<Movie> {
 
 	@Override
 	protected void prepEntity() {
-		logger.log(Level.INFO, "Preping entity for saving, converting list of actor to a hashSet");
+		logger.log(Level.INFO, "Preping entity for saving, converting list of actors to a hashSet");
 		if(selectedActors != null && selectedActors.size() > 0 ){
 			selectedEntity.setActors(new HashSet<Actor>(selectedActors));
 			selectedActors.clear();
+		}
+		
+		logger.log(Level.INFO, "Preping entity for saving, converting list of directors to a hashSet");
+		if(selectedDirectors != null && selectedDirectors.size() > 0 ){
+			selectedEntity.setDirectors(new HashSet<Director>(selectedDirectors));
+			selectedDirectors.clear();
 		}
 	}
 
@@ -69,6 +92,22 @@ public class ManageMoviesController extends CrudController<Movie> {
 
 	public void setSelectedActors(List<Actor> selectedActors) {
 		this.selectedActors = selectedActors;
+	}
+	
+	public List<Director> getSelectedDirectors() {
+		return selectedDirectors;
+	}
+
+	public void setSelectedDirectors(List<Director> selectedDirectors) {
+		this.selectedDirectors = selectedDirectors;
+	}
+	
+	public List<Genre> getSelectedGenres() {
+		return selectedGenres;
+	}
+
+	public void setSelectedGenres(List<Genre> selectedGenre) {
+		this.selectedGenres = selectedGenres;
 	}
 
 	public ManageMoviesService getManageMoviesService() {

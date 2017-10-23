@@ -37,7 +37,7 @@ public class ActorJPADAO extends BaseJPADAO<Actor> implements ActorDAO {
 	}
 
 	/**
-	 * Returns the a list of actors based on the name filter and limits the number of results
+	 * Returns a list of actors based on the name filter and limits the number of results
 	 * 
 	 */
 	@Override
