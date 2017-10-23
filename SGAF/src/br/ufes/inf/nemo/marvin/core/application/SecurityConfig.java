@@ -11,18 +11,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
 	@Autowired
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication().withUser("ro").password("123").roles("USER");
+		auth.inMemoryAuthentication().withUser("rodo").password("123").roles("USER");
 	}
 	
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable();
+		http.csrf().disable();                   
         http
         .authorizeRequests()//	
-            .anyRequest().authenticated()// 
-            .and()//	
+        .antMatchers("/core/**").authenticated()// 
+            .and()//
         .formLogin()//                      
-        .loginPage("/core/login/index.faces")//
+        .loginPage("/core/login/")//
+        .permitAll()//
+        .loginProcessingUrl("/appLogin")//
         .permitAll()//
         .usernameParameter("email")//
         .passwordParameter("password")//
