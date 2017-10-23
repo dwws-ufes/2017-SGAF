@@ -57,8 +57,10 @@ public class ManageMoviesController extends CrudController<Movie> {
 	@Override
 	protected void prepEntity() {
 		logger.log(Level.INFO, "Preping entity for saving, converting list of actor to a hashSet");
-		selectedEntity.setActors(new HashSet<Actor>(selectedActors));
-		selectedActors.clear();
+		if(selectedActors != null && selectedActors.size() > 0 ){
+			selectedEntity.setActors(new HashSet<Actor>(selectedActors));
+			selectedActors.clear();
+		}
 	}
 
 	public List<Actor> getSelectedActors() {

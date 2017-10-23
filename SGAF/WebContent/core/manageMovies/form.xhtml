@@ -94,7 +94,7 @@
 			<h:panelGroup rendered="#{manageMoviesController.readOnly}">
 				<ui:decorate template="/resources/#{coreInfo.decorator}/formbuttonpanel-01.xhtml">
 					<p:commandButton id="backButton" action="#{manageMoviesController.list}" value="#{msgs['jbutler.crud.button.back']}" immediate="true" icon="fa fa-fw fa-arrow-circle-left" />
-					<p:hotkey bind="#{msgs['jbutler.crud.hotkey.backToList']}" action="#{manageInstitutionsController.list}" immediate="true" />
+					<p:hotkey bind="#{msgs['jbutler.crud.hotkey.backToList']}" action="#{manageMoviesController.list}" immediate="true" />
 				</ui:decorate>
 			</h:panelGroup>
 		</ui:decorate>
