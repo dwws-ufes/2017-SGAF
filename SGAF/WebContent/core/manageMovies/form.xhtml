@@ -83,6 +83,36 @@
 				</ui:decorate>
 			</h:panelGroup>
 			
+			<!-- form: Add Directors. -->
+			<h:panelGroup rendered="#{! manageMoviesController.readOnly}">
+				<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+					<ui:param name="fieldName" value="directors" />
+					<ui:param name="label" value="#{msgsCore['manageMovies.field.directors']}" />
+					    <p:autoComplete id="directors" multiple="true" maxResults="10" minQueryLength="2" value="#{manageMoviesController.selectedDirectors}" completeMethod="#{manageMoviesController.completeDirector}"
+                        var="director" itemLabel="#{director.name}" itemValue="#{director}" converter="#{directorConverter}" forceSelection="true">				 
+				            <p:column>
+				                <h:outputText value="#{director.name}" />
+				            </p:column>
+				        </p:autoComplete>
+				</ui:decorate>
+			</h:panelGroup>
+			
+			<!--  form: Add Genres. -->
+			<h:panelGroup rendered="#{! manageMoviesController.readOnly}">
+				<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
+					<ui:param name="fieldName" value="genres" />
+					<ui:param name="label" value="#{msgsCore['manageMovies.field.genres']}" />
+						<p:selectManyMenu id="advanced" value="#{manageMoviesController.getSelectedGenres}" converter="genreConverter"
+			                          var="t" filter="true" filterMatchMode="contains" showCheckbox="true">
+			            <f:selectItems value="#{manageMoviesController.selectedGenres}" var="genre" itemLabel="#{genre.name}" itemValue="#{genre}" />
+			 
+			            <p:column>
+			                <h:outputText value="#{t.name}" />
+			            </p:column>
+	        			</p:selectManyMenu>
+        		</ui:decorate>
+			</h:panelGroup>
+			
 			<h:panelGroup rendered="#{! manageMoviesController.readOnly}">
 				<ui:decorate template="/resources/#{coreInfo.decorator}/formbuttonpanel-02.xhtml">
 					<p:commandButton id="cancelButton" action="#{manageMoviesController.list}" value="#{msgs['jbutler.crud.button.cancel']}" immediate="true" icon="fa fa-fw fa-close" />

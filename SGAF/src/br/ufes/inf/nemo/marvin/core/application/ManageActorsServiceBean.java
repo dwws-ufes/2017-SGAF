@@ -18,15 +18,15 @@ import br.ufes.inf.nemo.marvin.core.persistence.ActorDAO;
 @PermitAll
 public class ManageActorsServiceBean extends CrudServiceBean<Actor> implements ManageActorsService {
 
-	/** TODO: document this field. */
+	/** The serialization id. */
 	private static final long serialVersionUID = 1L;
 
 	/** The DAO for Actor objects. */
 	@EJB
 	private ActorDAO actorDAO;
 	
-	@Resource
-	private SessionContext sessionContext;
+	/* @Resource
+	private SessionContext sessionContext; */
 
 	/** @see br.ufes.inf.nemo.jbutler.ejb.application.ListingService#getDAO() */
 	@Override
