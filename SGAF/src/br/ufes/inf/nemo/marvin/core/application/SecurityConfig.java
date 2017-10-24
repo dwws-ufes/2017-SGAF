@@ -20,14 +20,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         http
         .authorizeRequests()//	
         .antMatchers("/core/**").authenticated()// 
-            .and()//
+        .and()//
         .formLogin()//                      
         .loginPage("/core/login/")//
         .permitAll()//
-        .loginProcessingUrl("/appLogin")//
+        .loginProcessingUrl("/appLogin")
         .permitAll()//
-        .usernameParameter("email")//
-        .passwordParameter("password")//
+        .usernameParameter("email")
+        .passwordParameter("password")
         .and().logout().permitAll();
 	}
 
