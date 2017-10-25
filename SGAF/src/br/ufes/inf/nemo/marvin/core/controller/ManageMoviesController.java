@@ -47,7 +47,6 @@ public class ManageMoviesController extends CrudController<Movie> {
 	private List<Actor> selectedActors;
 	private List<Director> selectedDirectors;
 	private List<Genre> selectedGenres;
-	private List<Genre> genres;
 	
 	public List<Actor> completeActor(String query) {
 		return manageActorsService.filterNameWith((new SimpleFilter("manageMovies.filter.Actor.byName", "name",
@@ -91,8 +90,6 @@ public class ManageMoviesController extends CrudController<Movie> {
 			selectedEntity.setGenres(new HashSet<Genre>(selectedGenres));
 			selectedGenres.clear();
 		}
-		
-		genres = manageGenresService.allGenres();
 	}
 
 	public List<Actor> getSelectedActors() {
@@ -120,11 +117,7 @@ public class ManageMoviesController extends CrudController<Movie> {
 	}
 	
 	public List<Genre> getGenres() {
-		return this.genres;
-	}
-	
-	public void setGenres(List<Genre> genres) {
-		this.genres = genres;
+		return manageGenresService.allGenres();
 	}
 
 	public ManageMoviesService getManageMoviesService() {
