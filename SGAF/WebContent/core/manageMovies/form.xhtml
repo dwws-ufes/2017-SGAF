@@ -102,12 +102,12 @@
 				<ui:decorate template="/resources/#{coreInfo.decorator}/formfield.xhtml">
 					<ui:param name="fieldName" value="genres" />
 					<ui:param name="label" value="#{msgsCore['manageMovies.field.genres']}" />
-						<p:selectManyMenu id="advanced" value="#{manageMoviesController.getSelectedGenres}" converter="genreConverter"
-			                          var="t" filter="true" filterMatchMode="contains" showCheckbox="true">
-			            <f:selectItems value="#{manageMoviesController.selectedGenres}" var="genre" itemLabel="#{genre.name}" itemValue="#{genre}" />
+						<p:selectManyMenu id="genres" value="#{manageMoviesController.selectedGenres}" converter="#{genreConverter}"
+			                          var="g" filter="true" filterMatchMode="contains" showCheckbox="true">
+			            <f:selectItems value="#{manageMoviesController.genres}" var="genre" itemLabel="#{genre.name}" itemValue="#{genre}" />
 			 
 			            <p:column>
-			                <h:outputText value="#{t.name}" />
+			                <h:outputText value="#{g.name}" />
 			            </p:column>
 	        			</p:selectManyMenu>
         		</ui:decorate>

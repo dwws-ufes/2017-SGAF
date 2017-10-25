@@ -1,5 +1,7 @@
 package br.ufes.inf.nemo.marvin.core.application;
 
+import java.util.List;
+
 import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -24,6 +26,11 @@ public class ManageGenresServiceBean extends CrudServiceBean<Genre> implements M
 	@Override
 	public BaseDAO<Genre> getDAO() {
 		return genreDAO;
+	}
+
+	@Override
+	public List<Genre> allGenres() {
+		return genreDAO.retrieveAll();
 	}
 
 }

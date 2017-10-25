@@ -47,7 +47,8 @@ public class ManageMoviesController extends CrudController<Movie> {
 	private List<Actor> selectedActors;
 	private List<Director> selectedDirectors;
 	private List<Genre> selectedGenres;
-
+	private List<Genre> genres;
+	
 	public List<Actor> completeActor(String query) {
 		return manageActorsService.filterNameWith((new SimpleFilter("manageMovies.filter.Actor.byName", "name",
 				getI18nMessage("msgsCore", "ManageMovies.text.filter.Actor.byName"))), query, 10);
@@ -84,6 +85,14 @@ public class ManageMoviesController extends CrudController<Movie> {
 			selectedEntity.setDirectors(new HashSet<Director>(selectedDirectors));
 			selectedDirectors.clear();
 		}
+		
+		logger.log(Level.INFO, "Preping entity for saving, converting list of genres to a hashSet");
+		if(selectedGenres != null && selectedGenres.size() > 0 ){
+			selectedEntity.setGenres(new HashSet<Genre>(selectedGenres));
+			selectedGenres.clear();
+		}
+		
+		genres = manageGenresService.allGenres();
 	}
 
 	public List<Actor> getSelectedActors() {
@@ -106,8 +115,16 @@ public class ManageMoviesController extends CrudController<Movie> {
 		return selectedGenres;
 	}
 
-	public void setSelectedGenres(List<Genre> selectedGenre) {
+	public void setSelectedGenres(List<Genre> selectedGenres) {
 		this.selectedGenres = selectedGenres;
+	}
+	
+	public List<Genre> getGenres() {
+		return this.genres;
+	}
+	
+	public void setGenres(List<Genre> genres) {
+		this.genres = genres;
 	}
 
 	public ManageMoviesService getManageMoviesService() {
