@@ -14,7 +14,7 @@
 
   	<ui:define name="body">
 		<p><h:outputText value="#{msgsCore['login.text.instructions']}" /></p>
-		
+
 		<form action="${request.contextPath}/appLogin" method="POST">
 			<h:outputLabel value="Enter UserName:" />
 			<input type="text" name="email"/><br/><br/>
@@ -23,7 +23,7 @@
 			<input type="submit" value="Login"/>
 			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>			
 		</form>
-		
+
 	</ui:define>
 </ui:composition>
 

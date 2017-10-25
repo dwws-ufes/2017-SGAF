@@ -19,7 +19,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		http.csrf().disable();                   
         http
         .authorizeRequests()//	
-        .antMatchers("/core/**").authenticated()// 
+        .antMatchers("/core/manageMovies/**").authenticated()// 
         .and()//
         .formLogin()//                      
         .loginPage("/core/login/")//
@@ -28,6 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         .permitAll()//
         .usernameParameter("email")
         .passwordParameter("password")
+        .defaultSuccessUrl("/core/login/appLogin.faces")
         .and().logout().permitAll();
 	}
 
