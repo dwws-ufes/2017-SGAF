@@ -19,7 +19,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		http.csrf().disable();                   
         http
         .authorizeRequests()//	
-        .antMatchers("/core/manageMovies/**").authenticated()// 
+        .antMatchers("/core/**").authenticated()// 
         .and()//
         .formLogin()//                      
         .loginPage("/core/login/")//
