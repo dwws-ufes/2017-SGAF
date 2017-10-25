@@ -6,7 +6,6 @@ import javax.ejb.Local;
 
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudService;
 import br.ufes.inf.nemo.jbutler.ejb.application.filters.Filter;
-import br.ufes.inf.nemo.marvin.core.domain.Actor;
 import br.ufes.inf.nemo.marvin.core.domain.Director;
 
 @Local
