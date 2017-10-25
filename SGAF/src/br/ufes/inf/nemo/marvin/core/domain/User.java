@@ -34,7 +34,7 @@ public class User extends Person {
 
 	/** The password, which identifies the user. */
 	@Basic
-	@Size(max = 32)
+	@Size(max = 100)
 	private String password;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")

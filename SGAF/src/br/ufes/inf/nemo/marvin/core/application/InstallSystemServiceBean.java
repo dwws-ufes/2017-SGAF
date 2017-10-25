@@ -8,6 +8,9 @@ import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import br.ufes.inf.nemo.jbutler.TextUtils;
 import br.ufes.inf.nemo.marvin.core.domain.MarvinConfiguration;
 import br.ufes.inf.nemo.marvin.core.domain.User;
@@ -48,10 +51,10 @@ public class InstallSystemServiceBean implements InstallSystemService {
 	@Override
 	public void installSystem(MarvinConfiguration config, User admin) throws SystemInstallFailedException {
 		logger.log(Level.FINER, "Installing system...");
-
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		try {
 			// Encodes the admin's password.
-			admin.setPassword(TextUtils.produceMd5Hash(admin.getPassword()));
+			admin.setPassword(encoder.encode(admin.getPassword()));
 
 			// Register the last update date / creation date.
 			Date now = new Date(System.currentTimeMillis());
@@ -77,11 +80,6 @@ public class InstallSystemServiceBean implements InstallSystemService {
 			// the system is installed.
 			logger.log(Level.FINER, "Reloading core information...");
 			coreInformation.init();
-		} catch (NoSuchAlgorithmException e) {
-			// Logs and rethrows the exception for the controller to display the
-			// error to the user.
-			logger.log(Level.SEVERE, "Could not find MD5 algorithm for password encription!", e);
-			throw new SystemInstallFailedException(e);
 		} catch (Exception e) {
 			// Logs and rethrows the exception for the controller to display the
 			// error to the user.

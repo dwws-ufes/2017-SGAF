@@ -27,17 +27,11 @@ public interface SessionInformation extends Serializable {
 	User getCurrentUser();
 
 	/**
-	 * Authenticates a user given her username and password. If the user is
-	 * correctly authenticated, she should be available as a Academic object
-	 * through the getCurrentUser() method.
+	 * Adds to autenticaded User to de parameter USER, so it can be user in the app.
 	 * 
 	 * @param username
 	 *            The username that identifies the user in the system.
-	 * @param password
-	 *            The password that authenticates the user.
 	 * 
-	 * @throws LoginFailedException
-	 *             If the username is unknown or the password is incorrect.
 	 */
-	void login(String username, String password) throws LoginFailedException;
+	void login(String username) throws LoginFailedException;
 }

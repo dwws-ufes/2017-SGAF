@@ -11,6 +11,9 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import br.ufes.inf.nemo.jbutler.ejb.controller.JSFController;
 import br.ufes.inf.nemo.marvin.core.application.CoreInformation;
 import br.ufes.inf.nemo.marvin.core.application.SessionInformation;
@@ -133,9 +136,10 @@ public class SessionController extends JSFController {
 		try {
 			// Uses the Login service to authenticate the user.
 			logger.log(Level.FINEST, "User attempting login with email \"{0}\"...", email);
-
+			UserDetails userDetails =
+					 (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			if (!isLoggedIn())
-				sessionInformation.login("rodo", "123");
+				sessionInformation.login(userDetails.getUsername());
 
 		} catch (LoginFailedException e) {
 			// Checks if it's a normal login exception (wrong username or
