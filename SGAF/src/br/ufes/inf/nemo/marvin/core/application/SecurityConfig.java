@@ -10,8 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-	
-	
+
 	public DriverManagerDataSource dataSource() {
 		DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
 		driverManagerDataSource.setDriverClassName("com.mysql.jdbc.Driver");
@@ -23,10 +22,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
-//		auth.inMemoryAuthentication().withUser("rodo").password("1234").roles("USER");
+		// auth.inMemoryAuthentication().withUser("rodo").password("1234").roles("USER");
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		auth.jdbcAuthentication().dataSource(dataSource())
 				.usersByUsernameQuery("select email as username, password, 1 from user where email=?")//
+				.authoritiesByUsernameQuery(
+						"select user.email as username, userrole.role as role from userrole,user where user.id=userrole.user_id and user.email=?")
 				.passwordEncoder(encoder);
 
 	}
@@ -36,6 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().disable();
 		http.authorizeRequests()//
 				.antMatchers("/core/installSystem/**").permitAll()//
+				.antMatchers("/core/regUser/**").permitAll()//
 				.antMatchers("/core/**").authenticated()//
 				.and()//
 				.formLogin()//
