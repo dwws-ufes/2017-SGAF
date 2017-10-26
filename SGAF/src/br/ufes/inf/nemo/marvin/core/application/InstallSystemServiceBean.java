@@ -1,18 +1,21 @@
 package br.ufes.inf.nemo.marvin.core.application;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
-import br.ufes.inf.nemo.jbutler.TextUtils;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import br.ufes.inf.nemo.marvin.core.domain.MarvinConfiguration;
+import br.ufes.inf.nemo.marvin.core.domain.Role;
 import br.ufes.inf.nemo.marvin.core.domain.User;
 import br.ufes.inf.nemo.marvin.core.exceptions.SystemInstallFailedException;
 import br.ufes.inf.nemo.marvin.core.persistence.MarvinConfigurationDAO;
+import br.ufes.inf.nemo.marvin.core.persistence.RoleDAO;
 import br.ufes.inf.nemo.marvin.core.persistence.UserDAO;
 
 /**
@@ -32,6 +35,9 @@ public class InstallSystemServiceBean implements InstallSystemService {
 	/** The DAO for User objects. */
 	@EJB
 	private UserDAO userDAO;
+	
+	@EJB
+	private RoleDAO roleDAO;
 
 	/** The DAO for MarvinConfiguration objects. */
 	@EJB
@@ -48,16 +54,26 @@ public class InstallSystemServiceBean implements InstallSystemService {
 	@Override
 	public void installSystem(MarvinConfiguration config, User admin) throws SystemInstallFailedException {
 		logger.log(Level.FINER, "Installing system...");
-
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		try {
+			logger.log(Level.FINER, "Creating Security Roles...");
+			Role adminRole = new Role("ADMIN");
+			Role userRole = new Role("USER");
+			roleDAO.save(adminRole);
+			roleDAO.save(userRole);
+			logger.log(Level.FINER, "Giving the Administrator Roles...");
+			HashSet<Role> adminRoles = new HashSet<Role>();
+			adminRoles.add(userRole);
+			adminRoles.add(adminRole);
 			// Encodes the admin's password.
-			admin.setPassword(TextUtils.produceMd5Hash(admin.getPassword()));
+			admin.setPassword(encoder.encode(admin.getPassword()));
 
 			// Register the last update date / creation date.
 			Date now = new Date(System.currentTimeMillis());
 			admin.setLastUpdateDate(now);
 			admin.setCreationDate(now);
 			config.setCreationDate(now);
+			admin.setRoles(adminRoles);
 			logger.log(Level.FINE, "Admin's last update date have been set as: {0}", new Object[] { now });
 
 			// Saves the administrator.
@@ -77,11 +93,6 @@ public class InstallSystemServiceBean implements InstallSystemService {
 			// the system is installed.
 			logger.log(Level.FINER, "Reloading core information...");
 			coreInformation.init();
-		} catch (NoSuchAlgorithmException e) {
-			// Logs and rethrows the exception for the controller to display the
-			// error to the user.
-			logger.log(Level.SEVERE, "Could not find MD5 algorithm for password encription!", e);
-			throw new SystemInstallFailedException(e);
 		} catch (Exception e) {
 			// Logs and rethrows the exception for the controller to display the
 			// error to the user.

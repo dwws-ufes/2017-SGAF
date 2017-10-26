@@ -11,6 +11,9 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import br.ufes.inf.nemo.jbutler.ejb.controller.JSFController;
 import br.ufes.inf.nemo.marvin.core.application.CoreInformation;
 import br.ufes.inf.nemo.marvin.core.application.SessionInformation;
@@ -133,7 +136,11 @@ public class SessionController extends JSFController {
 		try {
 			// Uses the Login service to authenticate the user.
 			logger.log(Level.FINEST, "User attempting login with email \"{0}\"...", email);
-			sessionInformation.login(email, password);
+			UserDetails userDetails =
+					 (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			if (!isLoggedIn())
+				sessionInformation.login(userDetails.getUsername());
+			System.out.println(userDetails.getAuthorities());
 		} catch (LoginFailedException e) {
 			// Checks if it's a normal login exception (wrong username or
 			// password) or not.
@@ -146,7 +153,7 @@ public class SessionController extends JSFController {
 						new Object[] { email, e.getReason() });
 				addGlobalI18nMessage("msgsCore", FacesMessage.SEVERITY_ERROR, "login.error.nomatch.summary",
 						"login.error.nomatch.detail");
-				return null;
+				// return null;
 
 			default:
 				// System failure exception. Report a fatal error and ask the
@@ -156,10 +163,9 @@ public class SessionController extends JSFController {
 				addGlobalI18nMessage("msgsCore", FacesMessage.SEVERITY_FATAL, "login.error.fatal.summary",
 						new Object[0], "login.error.fatal.detail",
 						new Object[] { new Date(System.currentTimeMillis()) });
-				return null;
+				// return null;
 			}
 		}
-
 		// If everything is OK, redirect back to the home screen.
 		return "/index.xhtml?faces-redirect=true";
 	}
