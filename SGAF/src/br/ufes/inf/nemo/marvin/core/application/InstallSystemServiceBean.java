@@ -57,8 +57,8 @@ public class InstallSystemServiceBean implements InstallSystemService {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		try {
 			logger.log(Level.FINER, "Creating Security Roles...");
-			Role adminRole = new Role("ADMIN");
-			Role userRole = new Role("USER");
+			Role adminRole = new Role("ROLE_ADMIN");
+			Role userRole = new Role("ROLE_USER");
 			roleDAO.save(adminRole);
 			roleDAO.save(userRole);
 			logger.log(Level.FINER, "Giving the Administrator Roles...");

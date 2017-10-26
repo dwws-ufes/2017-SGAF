@@ -15,4 +15,6 @@ public interface RoleDAO {
 	
 	public List<Role> retrieveAll();
 	
+	public Role retrieveById(String id);
+	
 }

@@ -29,6 +29,16 @@ public class RoleJPADAO implements RoleDAO, Serializable {
 	protected EntityManager getEntityManager() {
 		return entityManager;
 	}
+	
+	public Role retrieveById(String id) {
+		logger.log(Level.FINER, "Retrieving object of class \"{0}\" with id {1}...", new Object[] { Role.class, id });
+
+		// Uses the Persistence Context to retrieve an object given its id.
+		EntityManager em = getEntityManager();
+		Role result = (Role) em.find(Role.class, id);
+		logger.log(Level.INFO, "Retrieve object of class {0} with id {1} returned \"{2}\"", new Object[] { Role.class, id, result });
+		return result;
+	}
 
 	/** The logger. */
 	private static final Logger logger = Logger.getLogger(RoleJPADAO.class.getCanonicalName());
