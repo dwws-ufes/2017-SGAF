@@ -53,6 +53,9 @@ public class User extends Person {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastLoginDate;
 
+	@OneToMany
+	private Set<Role> roles;
+
 	/** Getter for shortName. */
 	public String getShortName() {
 		return shortName;
@@ -112,4 +115,21 @@ public class User extends Person {
 	public void setLastLoginDate(Date lastLoginDate) {
 		this.lastLoginDate = lastLoginDate;
 	}
+
+	public Set<Review> getReviews() {
+		return reviews;
+	}
+
+	public void setReviews(Set<Review> reviews) {
+		this.reviews = reviews;
+	}
+
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+	
 }
