@@ -140,7 +140,7 @@ public class SessionController extends JSFController {
 					 (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			if (!isLoggedIn())
 				sessionInformation.login(userDetails.getUsername());
-
+			System.out.println(userDetails.getAuthorities());
 		} catch (LoginFailedException e) {
 			// Checks if it's a normal login exception (wrong username or
 			// password) or not.

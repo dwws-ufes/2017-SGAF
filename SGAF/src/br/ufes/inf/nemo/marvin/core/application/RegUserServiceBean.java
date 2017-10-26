@@ -1,6 +1,7 @@
 package br.ufes.inf.nemo.marvin.core.application;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -9,6 +10,7 @@ import javax.ejb.Stateless;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import br.ufes.inf.nemo.marvin.core.domain.Role;
 import br.ufes.inf.nemo.marvin.core.domain.User;
 import br.ufes.inf.nemo.marvin.core.exceptions.SystemInstallFailedException;
 import br.ufes.inf.nemo.marvin.core.persistence.UserDAO;
@@ -33,11 +35,15 @@ public class RegUserServiceBean implements RegUserService {
 		try {
 			// Encodes the admin's password.
 			user.setPassword(encoder.encode(user.getPassword()));
-
+			logger.log(Level.FINER, "Giving the user Role...");
+			Role userRole = new Role("USER");
+			HashSet<Role> userRoles = new HashSet<Role>();
+			userRoles.add(userRole);
 			// Register the last update date / creation date.
 			Date now = new Date(System.currentTimeMillis());
 			user.setLastUpdateDate(now);
 			user.setCreationDate(now);
+			user.setRoles(userRoles);
 			// Saves the user.
 			logger.log(Level.FINER, "Persisting user data...\n\t- Title = {0}", new Object[] { user.getName() });
 			userDAO.save(user);
