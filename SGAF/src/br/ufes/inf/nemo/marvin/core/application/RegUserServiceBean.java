@@ -49,6 +49,7 @@ public class RegUserServiceBean implements RegUserService {
 			user.setLastUpdateDate(now);
 			user.setCreationDate(now);
 			// Saves the user.
+			user.setRoles(userRoles);
 			logger.log(Level.FINER, "Persisting user data...\n\t- Title = {0}", new Object[] { user.getName() });
 			userDAO.save(user);
 

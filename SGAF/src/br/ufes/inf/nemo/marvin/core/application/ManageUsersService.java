@@ -8,4 +8,8 @@ import br.ufes.inf.nemo.marvin.core.domain.User;
 @Local
 public interface ManageUsersService extends CrudService<User> {
 
+	public boolean isAdmin(User user);
+	
+	public void promoteToAdmin(User user);
+
 }
