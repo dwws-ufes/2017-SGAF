@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import br.ufes.inf.nemo.jbutler.ejb.controller.JSFController;
 import br.ufes.inf.nemo.marvin.core.application.CoreInformation;
 import br.ufes.inf.nemo.marvin.core.application.SessionInformation;
+import br.ufes.inf.nemo.marvin.core.domain.Role;
 import br.ufes.inf.nemo.marvin.core.domain.User;
 import br.ufes.inf.nemo.marvin.core.exceptions.LoginFailedException;
 
@@ -128,6 +129,12 @@ public class SessionController extends JSFController {
 		return expTime;
 	}
 
+	public boolean isAdmin(){
+		UserDetails userDetails =
+				 (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		return userDetails.getAuthorities().contains(new Role("ROLE_ADMIN"));
+	}
+	
 	/**
 	 * Accesses the Login service to authenticate the user given his email and
 	 * password.
@@ -169,4 +176,29 @@ public class SessionController extends JSFController {
 		// If everything is OK, redirect back to the home screen.
 		return "/index.xhtml?faces-redirect=true";
 	}
+
+	public CoreInformation getCoreInformation() {
+		return coreInformation;
+	}
+
+	public void setCoreInformation(CoreInformation coreInformation) {
+		this.coreInformation = coreInformation;
+	}
+
+	public SessionInformation getSessionInformation() {
+		return sessionInformation;
+	}
+
+	public void setSessionInformation(SessionInformation sessionInformation) {
+		this.sessionInformation = sessionInformation;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public static Logger getLogger() {
+		return logger;
+	}
+	
 }

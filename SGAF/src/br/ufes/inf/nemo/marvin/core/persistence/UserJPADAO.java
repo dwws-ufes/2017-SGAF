@@ -22,7 +22,7 @@ public class UserJPADAO extends BaseJPADAO<User> implements UserDAO {
 	private static final long serialVersionUID = 1L;
 
 	/** The logger. */
-	private static final Logger logger = Logger.getLogger(AcademicJPADAO.class.getCanonicalName());
+	private static final Logger logger = Logger.getLogger(UserJPADAO.class.getCanonicalName());
 
 	/**
 	 * The application's persistent context provided by the application server.
