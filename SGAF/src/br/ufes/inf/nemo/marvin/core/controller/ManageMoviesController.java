@@ -1,5 +1,6 @@
 package br.ufes.inf.nemo.marvin.core.controller;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.logging.Level;
@@ -91,7 +92,37 @@ public class ManageMoviesController extends CrudController<Movie> {
 			selectedGenres.clear();
 		}
 	}
+	
+	@Override
+	public String retrieve(Long id) {
+		logger.log(Level.INFO, "Displaying form for entity retrieval");
 
+		// Sets the data as read-only.
+		readOnly = true;
+
+		// Retrieves the existing entity that was selected, if not already done by the JSF component.
+		if (selectedEntity == null) retrieveExistingEntity(id);
+		else {
+			// Asks the CRUD service to fetch any lazy collection that possibly exists.
+			selectedEntity = getCrudService().fetchLazy(selectedEntity);
+			/* Dando o erro  LazyInitializationException: failed to lazily initialize a collection*/
+//			List<Actor> selectedActors = new ArrayList<Actor>();
+//			List<Director> selectedDirectors = new ArrayList<Director>();
+//			List<Genre> selectedGenres = new ArrayList<Genre>();
+//
+//			if(selectedEntity.getActors() != null)
+//				selectedActors.addAll(selectedEntity.getActors());
+//			if(selectedEntity.getDirectors() != null)
+//				selectedDirectors.addAll(selectedEntity.getDirectors());
+//			if(selectedEntity.getGenres() != null)
+//				selectedGenres.addAll(selectedEntity.getGenres());
+			checkSelectedEntity();
+		}
+
+		// Goes to the form.
+		return getViewPath() + "form.xhtml?faces-redirect=" + getFacesRedirect();
+	}
+	
 	public List<Actor> getSelectedActors() {
 		return selectedActors;
 	}
