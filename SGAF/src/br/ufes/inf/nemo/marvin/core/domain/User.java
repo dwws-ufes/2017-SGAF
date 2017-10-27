@@ -7,6 +7,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -53,7 +54,7 @@ public class User extends Person {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastLoginDate;
 
-	@OneToMany
+	@ManyToMany
 	private Set<Role> roles;
 
 	/** Getter for shortName. */
@@ -131,5 +132,5 @@ public class User extends Person {
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
-	
+
 }
