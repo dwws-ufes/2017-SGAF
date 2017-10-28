@@ -1,12 +1,10 @@
 package br.ufes.inf.nemo.marvin.core.application;
 
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 
-import br.ufes.inf.nemo.marvin.core.domain.Movie;
 import br.ufes.inf.nemo.marvin.core.domain.Review;
 import br.ufes.inf.nemo.marvin.core.exceptions.SystemInstallFailedException;
 import br.ufes.inf.nemo.marvin.core.persistence.ReviewDAO;

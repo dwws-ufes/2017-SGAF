@@ -2,10 +2,8 @@ package br.ufes.inf.nemo.marvin.core.application;
 
 import java.util.List;
 
-import javax.annotation.Resource;
 import javax.annotation.security.PermitAll;
 import javax.ejb.EJB;
-import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean;
@@ -24,18 +22,19 @@ public class ManageActorsServiceBean extends CrudServiceBean<Actor> implements M
 	/** The DAO for Actor objects. */
 	@EJB
 	private ActorDAO actorDAO;
-	
-	/* @Resource
-	private SessionContext sessionContext; */
+
+	/*
+	 * @Resource private SessionContext sessionContext;
+	 */
 
 	/** @see br.ufes.inf.nemo.jbutler.ejb.application.ListingService#getDAO() */
 	@Override
 	public BaseDAO<Actor> getDAO() {
 		return actorDAO;
 	}
-	
-	public List<Actor> filterNameWith(Filter<?> filter, String value, int MaxResults){
-		return actorDAO.filterNameWith(filter,value,MaxResults);
+
+	public List<Actor> filterNameWith(Filter<?> filter, String value, int MaxResults) {
+		return actorDAO.filterNameWith(filter, value, MaxResults);
 	}
 
 }

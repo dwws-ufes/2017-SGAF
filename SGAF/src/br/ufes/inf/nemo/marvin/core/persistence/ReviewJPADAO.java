@@ -28,4 +28,19 @@ public class ReviewJPADAO extends BaseJPADAO<Review> implements ReviewDAO {
 	protected EntityManager getEntityManager() {
 		return entityManager;
 	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public static Logger getLogger() {
+		return logger;
+	}
+
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
+	
+	
+	
 }
