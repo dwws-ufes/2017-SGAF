@@ -33,5 +33,5 @@ public interface SessionInformation extends Serializable {
 	 *            The username that identifies the user in the system.
 	 * 
 	 */
-	void login(String username) throws LoginFailedException;
+	void login(String username, String password) throws LoginFailedException;
 }

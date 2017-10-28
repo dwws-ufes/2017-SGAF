@@ -11,13 +11,9 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-
 import br.ufes.inf.nemo.jbutler.ejb.controller.JSFController;
 import br.ufes.inf.nemo.marvin.core.application.CoreInformation;
 import br.ufes.inf.nemo.marvin.core.application.SessionInformation;
-import br.ufes.inf.nemo.marvin.core.domain.Role;
 import br.ufes.inf.nemo.marvin.core.domain.User;
 import br.ufes.inf.nemo.marvin.core.exceptions.LoginFailedException;
 
@@ -128,7 +124,7 @@ public class SessionController extends JSFController {
 		logger.log(Level.FINEST, "Calculated expiration time: {0}", expTime);
 		return expTime;
 	}
-	
+
 	/**
 	 * Accesses the Login service to authenticate the user given his email and
 	 * password.
@@ -137,11 +133,8 @@ public class SessionController extends JSFController {
 		try {
 			// Uses the Login service to authenticate the user.
 			logger.log(Level.FINEST, "User attempting login with email \"{0}\"...", email);
-			UserDetails userDetails =
-					 (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			if (!isLoggedIn())
-				sessionInformation.login(userDetails.getUsername());
-			System.out.println(userDetails.getAuthorities());
+			sessionInformation.login(email, password);
+
 		} catch (LoginFailedException e) {
 			// Checks if it's a normal login exception (wrong username or
 			// password) or not.
@@ -194,5 +187,5 @@ public class SessionController extends JSFController {
 	public static Logger getLogger() {
 		return logger;
 	}
-	
+
 }
