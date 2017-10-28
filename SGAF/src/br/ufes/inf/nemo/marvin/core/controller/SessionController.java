@@ -128,12 +128,6 @@ public class SessionController extends JSFController {
 		logger.log(Level.FINEST, "Calculated expiration time: {0}", expTime);
 		return expTime;
 	}
-
-	public boolean isAdmin(){
-		UserDetails userDetails =
-				 (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		return userDetails.getAuthorities().contains(new Role("ROLE_ADMIN"));
-	}
 	
 	/**
 	 * Accesses the Login service to authenticate the user given his email and
