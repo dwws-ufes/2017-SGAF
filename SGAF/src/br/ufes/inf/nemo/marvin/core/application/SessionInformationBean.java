@@ -49,7 +49,7 @@ public class SessionInformationBean implements SessionInformation {
 	 *      java.lang.String)
 	 */
 	@Override
-	public void login(String username, String password) throws LoginFailedException {
+	public void login(String username) throws LoginFailedException {
 		try {
 			// Obtains the user given the e-mail address (that serves as
 			// username).

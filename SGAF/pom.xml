@@ -79,5 +79,25 @@
 			<artifactId>javaee-api</artifactId>
 			<version>7.0</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>4.2.3.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>4.2.3.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>4.2.3.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.30</version>
+		</dependency>
 	</dependencies>
 </project>

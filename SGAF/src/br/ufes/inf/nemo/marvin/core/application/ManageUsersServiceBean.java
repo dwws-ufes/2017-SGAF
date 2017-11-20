@@ -1,5 +1,6 @@
 package br.ufes.inf.nemo.marvin.core.application;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.annotation.Resource;
@@ -9,6 +10,7 @@ import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean;
+import br.ufes.inf.nemo.jbutler.ejb.application.filters.SimpleFilter;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
 import br.ufes.inf.nemo.marvin.core.domain.Role;
 import br.ufes.inf.nemo.marvin.core.domain.User;
@@ -49,20 +51,18 @@ public class ManageUsersServiceBean extends CrudServiceBean<User> implements Man
 	}
 
 	public void promoteToAdmin(User user) {
-		// SimpleFilter filter = new SimpleFilter("ManageUsers.filter.byName",
-		// "name",
-		// null);
-		// List<Role> userRoles = roleDAO.retrieveWithFilter(filter,
-		// "ROLE_USER");
-		//// Role adminRole = roleDAO.retrieveById("ROLE_ADMIN");
-		// user = userDAO.retrieveById(user.getId());
-		// if(user.getRoles().contains(adminRole)){
-		// return;
-		// }else{
-		// user.getRoles().add(adminRole);
-		// userDAO.merge(user);
-		// }
-
+//		SimpleFilter filter = new SimpleFilter("ManageUsers.filter.byName", "name",
+//				null);
+//		List<Role> userRoles = roleDAO.retrieveWithFilter(filter, "ROLE_USER");
+////		Role adminRole = roleDAO.retrieveById("ROLE_ADMIN");
+//		user = userDAO.retrieveById(user.getId());
+//		if(user.getRoles().contains(adminRole)){
+//			return;
+//		}else{
+//			user.getRoles().add(adminRole);
+//			userDAO.merge(user);
+//		}
+		
 	}
 
 	/** @see br.ufes.inf.nemo.jbutler.ejb.application.ListingService#getDAO() */
@@ -70,37 +70,4 @@ public class ManageUsersServiceBean extends CrudServiceBean<User> implements Man
 	public BaseDAO<User> getDAO() {
 		return userDAO;
 	}
-
-	public UserDAO getUserDAO() {
-		return userDAO;
-	}
-
-	public void setUserDAO(UserDAO userDAO) {
-		this.userDAO = userDAO;
-	}
-
-	public RoleDAO getRoleDAO() {
-		return roleDAO;
-	}
-
-	public void setRoleDAO(RoleDAO roleDAO) {
-		this.roleDAO = roleDAO;
-	}
-
-	public SessionContext getSessionContext() {
-		return sessionContext;
-	}
-
-	public void setSessionContext(SessionContext sessionContext) {
-		this.sessionContext = sessionContext;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
-	public static Logger getLogger() {
-		return logger;
-	}
-	
 }

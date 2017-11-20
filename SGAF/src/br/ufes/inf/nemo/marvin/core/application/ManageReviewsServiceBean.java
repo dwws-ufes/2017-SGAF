@@ -36,29 +36,4 @@ public class ManageReviewsServiceBean extends CrudServiceBean<Review> implements
 	public BaseDAO<Review> getDAO() {
 		return reviewDAO;
 	}
-
-	public ReviewDAO getReviewDAO() {
-		return reviewDAO;
-	}
-
-	public void setReviewDAO(ReviewDAO reviewDAO) {
-		this.reviewDAO = reviewDAO;
-	}
-
-	public SessionContext getSessionContext() {
-		return sessionContext;
-	}
-
-	public void setSessionContext(SessionContext sessionContext) {
-		this.sessionContext = sessionContext;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
-	public static Logger getLogger() {
-		return logger;
-	}
-	
 }

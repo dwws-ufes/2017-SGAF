@@ -37,30 +37,4 @@ public class ManageMoviesServiceBean extends CrudServiceBean<Movie> implements M
 		return movieDAO;
 	}
 
-	public MovieDAO getMovieDAO() {
-		return movieDAO;
-	}
-
-	public void setMovieDAO(MovieDAO movieDAO) {
-		this.movieDAO = movieDAO;
-	}
-
-	public SessionContext getSessionContext() {
-		return sessionContext;
-	}
-
-	public void setSessionContext(SessionContext sessionContext) {
-		this.sessionContext = sessionContext;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
-	public static Logger getLogger() {
-		return logger;
-	}
-
-	
-	
 }

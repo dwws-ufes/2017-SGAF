@@ -28,19 +28,4 @@ public class GenreJPADAO extends BaseJPADAO<Genre> implements GenreDAO {
 	protected EntityManager getEntityManager() {
 		return entityManager;
 	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
-	public static Logger getLogger() {
-		return logger;
-	}
-
-	public void setEntityManager(EntityManager entityManager) {
-		this.entityManager = entityManager;
-	}
-	
-	
-	
 }
