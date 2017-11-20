@@ -8,8 +8,7 @@ import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
+import br.ufes.inf.nemo.jbutler.TextUtils;
 import br.ufes.inf.nemo.marvin.core.domain.Role;
 import br.ufes.inf.nemo.marvin.core.domain.User;
 import br.ufes.inf.nemo.marvin.core.exceptions.SystemInstallFailedException;
@@ -28,7 +27,7 @@ public class RegUserServiceBean implements RegUserService {
 	/** The DAO for Academic objects. */
 	@EJB
 	private UserDAO userDAO;
-	
+
 	/** The DAO for Academic objects. */
 	@EJB
 	private RoleDAO roleDAO;
@@ -36,10 +35,9 @@ public class RegUserServiceBean implements RegUserService {
 	@Override
 	public void registerUser(User user) throws SystemInstallFailedException {
 		logger.log(Level.FINER, "Persisting User...");
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		try {
 			// Encodes the admin's password.
-			user.setPassword(encoder.encode(user.getPassword()));
+			user.setPassword(TextUtils.produceMd5Hash(user.getPassword()));
 			logger.log(Level.FINER, "Giving the user Role...");
 			Role userRole = roleDAO.retrieveById("ROLE_USER");
 			HashSet<Role> userRoles = new HashSet<Role>();

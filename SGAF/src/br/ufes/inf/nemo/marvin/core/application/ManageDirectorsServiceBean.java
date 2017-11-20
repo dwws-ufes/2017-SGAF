@@ -9,7 +9,6 @@ import javax.ejb.Stateless;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean;
 import br.ufes.inf.nemo.jbutler.ejb.application.filters.Filter;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
-import br.ufes.inf.nemo.marvin.core.domain.Actor;
 import br.ufes.inf.nemo.marvin.core.domain.Director;
 import br.ufes.inf.nemo.marvin.core.persistence.DirectorDAO;
 
@@ -23,16 +22,15 @@ public class ManageDirectorsServiceBean extends CrudServiceBean<Director> implem
 	/** The DAO for Director objects. */
 	@EJB
 	private DirectorDAO directorDAO;
-	
 
 	/** @see br.ufes.inf.nemo.jbutler.ejb.application.ListingService#getDAO() */
 	@Override
 	public BaseDAO<Director> getDAO() {
 		return directorDAO;
 	}
-	
-	public List<Director> filterNameWith(Filter<?> filter, String value, int MaxResults){
-		return directorDAO.filterNameWith(filter,value,MaxResults);
+
+	public List<Director> filterNameWith(Filter<?> filter, String value, int MaxResults) {
+		return directorDAO.filterNameWith(filter, value, MaxResults);
 	}
 
 }

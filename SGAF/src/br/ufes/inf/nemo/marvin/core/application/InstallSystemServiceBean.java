@@ -8,8 +8,7 @@ import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
+import br.ufes.inf.nemo.jbutler.TextUtils;
 import br.ufes.inf.nemo.marvin.core.domain.MarvinConfiguration;
 import br.ufes.inf.nemo.marvin.core.domain.Role;
 import br.ufes.inf.nemo.marvin.core.domain.User;
@@ -54,7 +53,6 @@ public class InstallSystemServiceBean implements InstallSystemService {
 	@Override
 	public void installSystem(MarvinConfiguration config, User admin) throws SystemInstallFailedException {
 		logger.log(Level.FINER, "Installing system...");
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		try {
 			logger.log(Level.FINER, "Creating Security Roles...");
 			Role adminRole = new Role("ROLE_ADMIN");
@@ -66,7 +64,7 @@ public class InstallSystemServiceBean implements InstallSystemService {
 			adminRoles.add(userRole);
 			adminRoles.add(adminRole);
 			// Encodes the admin's password.
-			admin.setPassword(encoder.encode(admin.getPassword()));
+			admin.setPassword(TextUtils.produceMd5Hash(admin.getPassword()));
 
 			// Register the last update date / creation date.
 			Date now = new Date(System.currentTimeMillis());
