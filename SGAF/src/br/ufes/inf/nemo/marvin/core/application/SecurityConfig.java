@@ -14,7 +14,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public DriverManagerDataSource dataSource() {
 		DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
 		driverManagerDataSource.setDriverClassName("com.mysql.jdbc.Driver");
-		driverManagerDataSource.setUrl("jdbc:mysql://localhost:3306/sgafDB");
+		driverManagerDataSource.setUrl("jdbc:mysql://localhost:3306/sgafdb");
 		driverManagerDataSource.setUsername("dwws");
 		driverManagerDataSource.setPassword("1234");
 		return driverManagerDataSource;
@@ -25,9 +25,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		// auth.inMemoryAuthentication().withUser("rodo").password("1234").roles("USER");
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		auth.jdbcAuthentication().dataSource(dataSource())
-				.usersByUsernameQuery("select email as username, password, 1 from user where email=?")//
+				.usersByUsernameQuery("select email as username, password, 1 from User where email=?")//
 				.authoritiesByUsernameQuery(
-						"select user.email as username, user_role.roles_name as role from user,user_role where user.id=user_role.user_id and user.email=?")
+						"select User.email as username, User_Role.roles_name as role from User,User_Role where User.id=User_Role.user_id and User.email=?")
 				.passwordEncoder(encoder);
 
 	}
