@@ -16,7 +16,7 @@
 	<link rel="stylesheet" href="#{facesContext.externalContext.requestContextPath}/resources/default/stylesheets/AdminLTE-2.3.0/dist/css/skins/skin-blue.min.css" />
 	<link rel="stylesheet" href="#{facesContext.externalContext.requestContextPath}/resources/default/stylesheets/marvin.css" />
 	<script type="text/javascript" src="#{facesContext.externalContext.requestContextPath}/resources/default/scripts/jbutler.js" />
-	<title><h:outputText value="Marvin :: " /> <ui:insert name="title" /></title>
+	<title><h:outputText value="SGAF :: " /> <ui:insert name="title" /></title>
 	<ui:insert name="head" />
 </h:head>
 <h:body class="hold-transition skin-blue sidebar-mini">
@@ -26,9 +26,9 @@
 		<header class="main-header">
 
 			<!-- Logo -->
-			<a href="#{facesContext.externalContext.requestContextPath}/" class="logo"><span class="logo-mini">[<b>M</b>]</span>
-				<h:panelGroup rendered="#{coreInfo.systemInstalled}"><span class="logo-lg"><b>Marvin</b> @ <h:outputText value="#{coreInfo.currentConfig.institutionAcronym}" /></span></h:panelGroup>
-				<h:panelGroup rendered="#{not coreInfo.systemInstalled}"><span class="logo-lg"><b>Marvin</b></span></h:panelGroup>
+			<a href="#{facesContext.externalContext.requestContextPath}/" class="logo"><span class="logo-mini">[<b>F</b>]</span>
+				<h:panelGroup rendered="#{coreInfo.systemInstalled}"><span class="logo-lg"><b>SGAF</b> @ <h:outputText value="#{coreInfo.currentConfig.institutionAcronym}" /></span></h:panelGroup>
+				<h:panelGroup rendered="#{not coreInfo.systemInstalled}"><span class="logo-lg"><b>SGAF</b></span></h:panelGroup>
 			</a>
 
 			<!-- Header Navbar -->
