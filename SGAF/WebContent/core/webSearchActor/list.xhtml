@@ -54,18 +54,18 @@
 				paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" 
 				paginatorPosition="bottom" 
 				loadingMessage="#{msgs['jbutler.text.ajax.loading']}" 
-				emptyMessage="#{webSearchActorController.filtering ? msgsCore['webSearchActor.text.noEntitiesFiltered'] : msgsCore['manwebSearchActor.t.noEntities']}">
+				emptyMessage="#{webSearchActorController.filtering ? msgsCore['webSearchActor.text.noEntitiesFiltered'] : msgsCore['webSearchActor.noEntities']}">
 
-				<p:column headerText="#{msgsCore['webSearchActor.form.title']}">
-					<h:outputText value="#{entity.title}" />
+				<p:column headerText="#{msgsCore['webSearchActor.form.name']}">
+					<h:outputText value="#{entity.name}" />
 				</p:column>
 
-				<p:column headerText="#{msgsCore['webSearchActor.form.launchDate']}">
-					<h:outputText value="#{entity.launchDate}" />
+				<p:column headerText="#{msgsCore['webSearchActor.form.birthDate']}">
+					<h:outputText value="#{entity.birthDate}" />
 				</p:column>
 				
-				<p:column headerText="#{msgsCore['webSearchActor.form.length']}">
-					<h:outputText value="#{entity.length}" />
+				<p:column headerText="#{msgsCore['webSearchActor.form.gender']}">
+					<h:outputText value="#{entity.gender}" />
 				</p:column>
 
 				<p:ajax event="rowSelect" update=":listingForm:buttonsGroup" />

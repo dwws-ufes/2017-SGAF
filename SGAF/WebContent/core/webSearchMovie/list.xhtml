@@ -54,7 +54,7 @@
 				paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" 
 				paginatorPosition="bottom" 
 				loadingMessage="#{msgs['jbutler.text.ajax.loading']}" 
-				emptyMessage="#{webSearchMovieController.filtering ? msgsCore['webSearchMovie.text.noEntitiesFiltered'] : msgsCore['manwebSearchMovie.t.noEntities']}">
+				emptyMessage="#{webSearchMovieController.filtering ? msgsCore['webSearchMovie.text.noEntitiesFiltered'] : msgsCore['webSearchMovie.noEntities']}">
 
 				<p:column headerText="#{msgsCore['webSearchMovie.form.title']}">
 					<h:outputText value="#{entity.title}" />
