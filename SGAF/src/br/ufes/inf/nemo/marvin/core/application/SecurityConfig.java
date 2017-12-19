@@ -21,7 +21,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	@Autowired
-	public void configure(AuthenticationManagerBuilder auth) throws Exception {
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		// auth.inMemoryAuthentication().withUser("rodo").password("1234").roles("USER");
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		auth.jdbcAuthentication().dataSource(dataSource())
