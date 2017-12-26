@@ -43,7 +43,7 @@
 
 			<p:dataTable
 				widgetVar="listingTable"
-				value="#{webSearchMovieController.model}" 
+				value="#{webSearchMovieController.lazyEntities}" 
 				var="entity" 
 				rows="#{webSearchMovieController.maxDataTableRowsPerPage}" 
 				rowsPerPageTemplate="#{webSearchMovieController.halfMaxDataTableRowsPerPage},#{webSearchMovieController.maxDataTableRowsPerPage},#{webSearchMovieController.doubleMaxDataTableRowsPerPage}"
@@ -108,6 +108,8 @@
 					</ui:decorate>
 				</h:panelGroup>
 			</h:panelGroup>
-		</ui:decorate>
+		</ui:decorate> 
+</p:dataTable>
+		
 	</ui:define>
 </ui:composition>

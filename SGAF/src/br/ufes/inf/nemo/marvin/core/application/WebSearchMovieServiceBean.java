@@ -11,7 +11,9 @@ import javax.ejb.Stateless;
 
 import org.primefaces.model.LazyDataModel;
 
+import br.ufes.inf.nemo.jbutler.ejb.application.CrudOperation;
 import br.ufes.inf.nemo.jbutler.ejb.application.CrudServiceBean;
+import br.ufes.inf.nemo.jbutler.ejb.application.filters.Filter;
 import br.ufes.inf.nemo.jbutler.ejb.persistence.BaseDAO;
 import br.ufes.inf.nemo.marvin.core.domain.Movie;
 import br.ufes.inf.nemo.marvin.core.persistence.MovieDAO;
@@ -35,10 +37,6 @@ public class WebSearchMovieServiceBean extends CrudServiceBean<Movie> implements
 	@EJB
 	private WebSearchMovieDAO webSearchMovieDAO;
 
-	private WebSearchLazyFilter filter = new WebSearchLazyFilter();
-
-	private LazyDataModel<Movie> model;
-
 	/** TODO: document this field. */
 	@Resource
 	private SessionContext sessionContext;
@@ -49,35 +47,16 @@ public class WebSearchMovieServiceBean extends CrudServiceBean<Movie> implements
 		return movieDAO;
 	}
 
-	public List<Movie> retrieveWithFilter(WebSearchLazyFilter filter) {
-		return webSearchMovieDAO.retrieveWithFilter(filter);
+	@Override
+	public List<Movie> filter(Filter<?> filter, String filterParam, int ... interval) {
+		List<Movie> entities = webSearchMovieDAO.retrieveSomeWithFilter(filter, filterParam, interval);
+		return entities;
 	}
-
-	public int retrieveCountWithFilter(WebSearchLazyFilter filter) {
-		return webSearchMovieDAO.retrieveCountWithFilter(filter);
+	
+	@Override
+	public List<Movie> list(int ... interval) {
+		List<Movie> entities = webSearchMovieDAO.retrieveSome(interval);
+		return entities;
 	}
-
-	// public WebSearchMovieServiceBean() {
-	// model = new LazyDataModel<Movie>() {
-	// private static final long serialVersionUID = 1L;
-	//
-	// @Override
-	// public List<Movie> load(int first, int pageSize,
-	// String sortField, SortOrder sortOrder,
-	// Map<String, Object> filters) {
-	//
-	// filter.setPrimeiroRegistro(first);
-	// filter.setQuantidadeRegistros(pageSize);
-	// filter.setAscendente(SortOrder.ASCENDING.equals(sortOrder));
-	// filter.setPropriedadeOrdenacao(sortField);
-	//
-	// setRowCount(webSearchMovieDAO.retrieveCountWithFilter(filter));
-	//
-	// return webSearchMovieDAO.retrieveWithFilter(filter);
-	// }
-	//
-	//
-	// };
-	// }
 
 }
