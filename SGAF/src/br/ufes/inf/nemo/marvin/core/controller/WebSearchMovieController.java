@@ -118,6 +118,7 @@ public class WebSearchMovieController extends CrudController<Movie> {
 					retrieveEntities();
 					return entities;
 				}
+				
 			};
 			lazyEntities.setRowCount((int) entityCount);
 		}

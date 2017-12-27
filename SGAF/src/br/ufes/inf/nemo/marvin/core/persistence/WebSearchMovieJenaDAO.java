@@ -1,7 +1,11 @@
 package br.ufes.inf.nemo.marvin.core.persistence;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -12,7 +16,6 @@ import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 
 import br.ufes.inf.nemo.jbutler.ejb.application.filters.Filter;
-import br.ufes.inf.nemo.marvin.core.application.WebSearchLazyFilter;
 import br.ufes.inf.nemo.marvin.core.domain.Movie;
 
 @Stateless
@@ -55,11 +58,19 @@ public class WebSearchMovieJenaDAO implements WebSearchMovieDAO, Serializable {
 
 	public List<Movie> retrieveSome(int[] interval) {
 		List<Movie> resultList = new ArrayList<Movie>();
-
-		String query = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\r\n"
-				+ "PREFIX movie: <http://data.linkedmdb.org/resource/movie/>\r\n" + "\r\n" + "\r\n"
-				+ "SELECT DISTINCT ?filmTitle WHERE {\r\n" + "  ?film a movie:film;\r\n"
-				+ "          rdfs:label ?filmTitle\r\n" + "} LIMIT 100";
+		
+		String query = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\r\n" + 
+				"PREFIX movie: <http://data.linkedmdb.org/resource/movie/>\r\n" + 
+				"\r\n" + 
+				"\r\n" + 
+				"SELECT DISTINCT ?film ?filmTitle ?runtime ?initial_release_date WHERE {\r\n" + 
+				"  ?film a movie:film;\r\n" + 
+				"          rdfs:label ?filmTitle;\r\n" + 
+				"          movie:runtime ?runtime;\r\n" + 
+				"          movie:initial_release_date ?initial_release_date\r\n" + 
+				"}\r\n" + 
+				"ORDER BY ?filmTitle\r\n" + 
+				"LIMIT 100";
 
 		QueryExecution queryExecution = QueryExecutionFactory.sparqlService("http://data.linkedmdb.org/sparql", query);
 		ResultSet results = queryExecution.execSelect();
@@ -68,14 +79,27 @@ public class WebSearchMovieJenaDAO implements WebSearchMovieDAO, Serializable {
 			Movie e = new Movie();
 			QuerySolution querySolution = results.next();
 			e.setTitle(querySolution.getLiteral("filmTitle").toString());
+			e.setLength(new Long(querySolution.getLiteral("runtime").toString()));
+			try {
+				e.setLaunchDate(readDate(querySolution.getLiteral("initial_release_date").getString()));
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
 			resultList.add(e);
 		}
 
 		return resultList;
 	}
+	
+	public static Date readDate(String dateStr) throws ParseException {
+		/*pega a 1º data, caso duas data forem cadastradas*/
+		dateStr = dateStr.split(",")[0];
+	    DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	    Date d = format.parse(dateStr);
 
-	public int retrieveCountWithFilter(WebSearchLazyFilter filter) {
-		return 0;
+	    return d;
 	}
 
 }
