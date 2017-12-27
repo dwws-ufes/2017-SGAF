@@ -1,6 +1,7 @@
 package br.ufes.inf.nemo.marvin.core.application;
 
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.annotation.Resource;
@@ -57,6 +58,16 @@ public class WebSearchMovieServiceBean extends CrudServiceBean<Movie> implements
 	public List<Movie> list(int ... interval) {
 		List<Movie> entities = webSearchMovieDAO.retrieveSome(interval);
 		return entities;
+	}
+	
+	@Override
+	public long count() {
+		return webSearchMovieDAO.retrieveCount();
+	}
+	
+	@Override
+	public long countFiltered(Filter<?> filter, String value) {
+		return webSearchMovieDAO.retrieveFilteredCount(filter, value);
 	}
 
 }
