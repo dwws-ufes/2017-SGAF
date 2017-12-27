@@ -53,8 +53,8 @@ public class ManageUsersController extends CrudController<User> {
 	/** @see br.ufes.inf.nemo.jbutler.ejb.controller.ListingController#initFilters() */
 	@Override
 	protected void initFilters() {
-		addFilter(new SimpleFilter("ManageUsers.filter.byTitle", "title",
-				getI18nMessage("msgsCore", "ManageUsers.text.filter.byTitle")));
+		addFilter(new SimpleFilter("ManageUsers.filter.byName", "name",
+				getI18nMessage("msgsCore", "manageUsers.text.filter.byName")));
 	}
 
 	public ManageUsersService getManageUsersService() {
