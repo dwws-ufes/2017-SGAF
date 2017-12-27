@@ -76,7 +76,7 @@
 			<!-- Buttons shown below the listing. -->
 			<h:panelGroup id="buttonsGroup">
 				<ui:decorate template="/resources/#{coreInfo.decorator}/formbuttonpanel-04.xhtml">
-					<p:commandButton action="#{manageUsersController.promoteToAdmin}" value="#{msgs['manageUsersController.button.promoteToAdmin']}" icon="fa fa-fw fa-refresh" disabled="#{manageUsersController.giveAdminRoleEnable}" />
+					<p:commandButton action="#{manageUsersController.promoteToAdmin}" value="#{msgs['manageUsers.button.promoteToAdmin']}" icon="fa fa-fw fa-refresh" disabled="#{manageUsersController.giveAdminRoleEnable}" />
 					<p:commandButton action="#{manageUsersController.trash}" value="#{msgs['jbutler.crud.button.delete']}" icon="fa fa-fw fa-trash-o" disabled="#{manageUsersController.selectedEntity == null}" process="@this" update=":listingForm:trashGroup" />
 				</ui:decorate>
 				<p:hotkey bind="#{msgs['jbutler.crud.hotkey.update']}" action="#{manageUsersController.update}" rendered="#{manageUsersController.selectedEntity != null}" />
