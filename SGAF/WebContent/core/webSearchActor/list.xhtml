@@ -60,14 +60,6 @@
 					<h:outputText value="#{entity.name}" />
 				</p:column>
 
-				<p:column headerText="#{msgsCore['webSearchActor.form.birthDate']}">
-					<h:outputText value="#{entity.birthDate}" />
-				</p:column>
-				
-				<p:column headerText="#{msgsCore['webSearchActor.form.gender']}">
-					<h:outputText value="#{entity.gender}" />
-				</p:column>
-
 				<p:ajax event="rowSelect" update=":listingForm:buttonsGroup" />
 				<p:ajax event="rowUnselect" update=":listingForm:buttonsGroup" />
 			</p:dataTable>

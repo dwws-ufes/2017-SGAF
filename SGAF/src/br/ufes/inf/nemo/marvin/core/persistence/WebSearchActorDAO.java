@@ -13,4 +13,8 @@ public interface WebSearchActorDAO {
 	public List<Actor> retrieveSomeWithFilter(Filter<?> filter, String value, int[] interval);
 	
 	public List<Actor> retrieveSome(int[] interval);
+	
+	public long retrieveCount();
+	
+	public long retrieveFilteredCount(Filter<?> filter, String value);
 }
