@@ -29,10 +29,6 @@ public class WebSearchMovieController extends CrudController<Movie> {
 	private WebSearchMovieService webSearchMovieService;
 
 	private LazyDataModel<Movie> model;
-	
-	private Movie selectedEntityWeb;
-
-	// private WebSearchLazyFilter filter = new WebSearchLazyFilter();
 
 	/** @see br.ufes.inf.nemo.jbutler.ejb.controller.CrudController#getCrudService() */
 	@Override
@@ -46,28 +42,6 @@ public class WebSearchMovieController extends CrudController<Movie> {
 		addFilter(new SimpleFilter("ManageMovies.filter.byTitle", "title",
 				getI18nMessage("msgsCore", "ManageMovies.text.filter.byTitle")));
 	}
-
-	// public WebSearchMovieController() {
-	// model = new LazyDataModel<Movie>() {
-	// private static final long serialVersionUID = 1L;
-	//
-	// @Override
-	// public List<Movie> load(int first, int pageSize, String sortField,
-	// SortOrder sortOrder,
-	// Map<String, Object> filters) {
-	//
-	// filter.setPrimeiroRegistro(first);
-	// filter.setQuantidadeRegistros(pageSize);
-	// filter.setAscendente(SortOrder.ASCENDING.equals(sortOrder));
-	// filter.setPropriedadeOrdenacao(sortField);
-	//
-	// setRowCount(webSearchMovieService.retrieveCountWithFilter(filter));
-	//
-	// return webSearchMovieService.retrieveWithFilter(filter);
-	// }
-	//
-	// };
-	// }
 
 	public WebSearchMovieService getWebSearchMovieService() {
 		return webSearchMovieService;
@@ -85,10 +59,6 @@ public class WebSearchMovieController extends CrudController<Movie> {
 	public void setModel(LazyDataModel<Movie> model) {
 		this.model = model;
 	}
-
-	// public void setFilter(WebSearchLazyFilter filter) {
-	// this.filter = filter;
-	// }
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
@@ -190,14 +160,6 @@ public class WebSearchMovieController extends CrudController<Movie> {
 		lastEntityIndex = firstEntityIndex + MAX_DATA_TABLE_ROWS_PER_PAGE;
 		if (lastEntityIndex > entityCount)
 			lastEntityIndex = (int) entityCount;
-	}
-
-	public Movie getSelectedEntityWeb() {
-		return selectedEntityWeb;
-	}
-
-	public void setSelectedEntityWeb(Movie selectedEntityWeb) {
-		this.selectedEntityWeb = selectedEntityWeb;
 	}
 
 }

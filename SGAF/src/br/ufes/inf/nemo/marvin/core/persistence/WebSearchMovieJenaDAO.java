@@ -70,14 +70,14 @@ public class WebSearchMovieJenaDAO implements WebSearchMovieDAO, Serializable {
 			QuerySolution querySolution = results.next();
 			e.setTitle(querySolution.getLiteral("filmTitle").toString());
 			e.setLength(new Long(querySolution.getLiteral("runtime").toString()));
-			e.setLaunchDate(new Date());
+//			e.setLaunchDate(new Date());
 			/**falta entender como parsear a data**/
-//			try {
-//				e.setLaunchDate(readDate(querySolution.getLiteral("initial_release_date").getString()));
-//			} catch (ParseException e1) {
-//				// TODO Auto-generated catch block
-//				e1.printStackTrace();
-//			}
+			try {
+				e.setLaunchDate(readDate(querySolution.getLiteral("initial_release_date").getString()));
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 
 			resultList.add(e);
 		}
