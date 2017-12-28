@@ -11,13 +11,16 @@ import br.ufes.inf.nemo.marvin.core.domain.Movie;
 @Local
 public interface WebSearchMovieService extends CrudService<Movie> {
 
-	// public List<Movie> retrieveWithFilter(WebSearchLazyFilter filter);
-	//
-	// public int retrieveCountWithFilter(WebSearchLazyFilter filter);
 	@Override
 	public List<Movie> filter(Filter<?> filter, String filterParam, int... interval);
 
 	@Override
 	public List<Movie> list(int... interval);
+	
+	@Override
+	public long count();
+	
+	@Override
+	public long countFiltered(Filter<?> filter, String value);
 
 }

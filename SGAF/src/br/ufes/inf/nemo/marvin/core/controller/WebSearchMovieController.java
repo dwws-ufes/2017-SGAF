@@ -29,6 +29,8 @@ public class WebSearchMovieController extends CrudController<Movie> {
 	private WebSearchMovieService webSearchMovieService;
 
 	private LazyDataModel<Movie> model;
+	
+	private Movie selectedEntityWeb;
 
 	// private WebSearchLazyFilter filter = new WebSearchLazyFilter();
 
@@ -92,6 +94,18 @@ public class WebSearchMovieController extends CrudController<Movie> {
 		return serialVersionUID;
 	}
 
+	public String add() {
+
+		// Sets the data as read-write.
+		readOnly = false;
+
+		// Resets the entity so we can create a new one.
+//		selectedEntity = createNewEntity();
+
+		// Goes to the form.
+		return getViewPath() + "form.xhtml?faces-redirect=" + getFacesRedirect();
+	}
+	
 	@Override
 	/**
 	 * Getter for lazyEntities.
@@ -116,6 +130,11 @@ public class WebSearchMovieController extends CrudController<Movie> {
 					retrieveEntities();
 					return entities;
 				}
+				
+				@Override
+				public Movie getRowData(String rowKey){
+					return Movie.getMovieByUuid(rowKey, entities);
+				}
 
 			};
 			lazyEntities.setRowCount((int) entityCount);
@@ -124,6 +143,8 @@ public class WebSearchMovieController extends CrudController<Movie> {
 		return lazyEntities;
 	}
 
+	
+	
 	/**
 	 * Retrieves a collection of entities, respecting the selected range. Makes
 	 * the collection available to the view. This method is intended to be used
@@ -169,6 +190,14 @@ public class WebSearchMovieController extends CrudController<Movie> {
 		lastEntityIndex = firstEntityIndex + MAX_DATA_TABLE_ROWS_PER_PAGE;
 		if (lastEntityIndex > entityCount)
 			lastEntityIndex = (int) entityCount;
+	}
+
+	public Movie getSelectedEntityWeb() {
+		return selectedEntityWeb;
+	}
+
+	public void setSelectedEntityWeb(Movie selectedEntityWeb) {
+		this.selectedEntityWeb = selectedEntityWeb;
 	}
 
 }

@@ -41,19 +41,8 @@ public class WebSearchMovieJenaDAO implements WebSearchMovieDAO, Serializable {
 			e.setTitle(querySolution.getLiteral("filmTitle").toString());
 			resultList.add(e);
 		}
-
+		queryExecution.close();
 		return resultList;
-
-		// // Builds the filtered query.
-		// EntityManager em = getEntityManager();
-		// CriteriaQuery<Movie> cq = buildFilteredCriteriaQuery(filter, value);
-		//
-		// // Determine the interval to retrieve and return the result.
-		// TypedQuery<Movie> q = em.createQuery(cq);
-		// q.setMaxResults(interval[1] - interval[0]);
-		// q.setFirstResult(interval[0]);
-		// List<Movie> result = q.getResultList();
-		// return result;
 	}
 
 	public List<Movie> retrieveSome(int[] interval) {
@@ -70,7 +59,8 @@ public class WebSearchMovieJenaDAO implements WebSearchMovieDAO, Serializable {
 				"          movie:initial_release_date ?initial_release_date\r\n" + //
 				"}\r\n" + //
 				"ORDER BY ?filmTitle\r\n" + //
-				"LIMIT 100";
+				"LIMIT " + (interval[1] - interval[0] + 1) + //
+				"OFFSET " + interval[0];
 
 		QueryExecution queryExecution = QueryExecutionFactory.sparqlService("http://data.linkedmdb.org/sparql", query);
 		ResultSet results = queryExecution.execSelect();
@@ -91,7 +81,8 @@ public class WebSearchMovieJenaDAO implements WebSearchMovieDAO, Serializable {
 
 			resultList.add(e);
 		}
-
+		
+		queryExecution.close();
 		return resultList;
 	}
 
@@ -113,6 +104,7 @@ public class WebSearchMovieJenaDAO implements WebSearchMovieDAO, Serializable {
 
 		QuerySolution querySolution = results.next();
 		String number = querySolution.getLiteral("count").getString();
+		queryExecution.close();
 		return Long.valueOf(number);
 
 	}
@@ -135,12 +127,13 @@ public class WebSearchMovieJenaDAO implements WebSearchMovieDAO, Serializable {
 
 		QuerySolution querySolution = results.next();
 		String number = querySolution.getLiteral("count").getString();
+		queryExecution.close();
 		return Long.valueOf(number);
 
 	}
 
 	public static Date readDate(String dateStr) throws ParseException {
-		/* pega a 1º data, caso duas data forem cadastradas */
+		/* pega a 1ï¿½ data, caso duas data forem cadastradas */
 		dateStr = dateStr.split(",")[0];
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		Date d = format.parse(dateStr);
