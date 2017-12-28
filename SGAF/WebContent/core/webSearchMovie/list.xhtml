@@ -37,6 +37,10 @@
 			</ui:decorate>
 		</h:panelGroup>
 		
+		<!-- Searching movies by actor or actress -->
+		<p:inputText id="actorName" required="false" value="#{webSearchMovieController.actorName}" rendered="true" />
+		<p:commandButton action="#{webSearchMovieController.searchByActor}" value="#{msgs['webSearchMovie.searchByActor']}" icon="fa fa-fw fa-search" />
+		
 		<!-- The listing form. -->
 		<ui:decorate template="/resources/#{coreInfo.decorator}/form-nobox.xhtml">
 			<ui:param name="formName" value="listingForm" />

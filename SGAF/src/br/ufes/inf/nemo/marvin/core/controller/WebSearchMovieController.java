@@ -1,5 +1,7 @@
 package br.ufes.inf.nemo.marvin.core.controller;
 
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -7,6 +9,10 @@ import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
+import org.apache.jena.query.QueryExecution;
+import org.apache.jena.query.QueryExecutionFactory;
+import org.apache.jena.query.QuerySolution;
+import org.apache.jena.query.ResultSet;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
@@ -15,7 +21,9 @@ import br.ufes.inf.nemo.jbutler.ejb.application.filters.SimpleFilter;
 import br.ufes.inf.nemo.jbutler.ejb.controller.CrudController;
 import br.ufes.inf.nemo.jbutler.ejb.controller.PrimefacesLazyEntityDataModel;
 import br.ufes.inf.nemo.marvin.core.application.WebSearchMovieService;
+import br.ufes.inf.nemo.marvin.core.domain.Actor;
 import br.ufes.inf.nemo.marvin.core.domain.Movie;
+import br.ufes.inf.nemo.marvin.core.persistence.WebSearchMovieJenaDAO;
 
 @Named
 @SessionScoped
@@ -31,8 +39,20 @@ public class WebSearchMovieController extends CrudController<Movie> {
 	private LazyDataModel<Movie> model;
 	
 	private Movie selectedEntityWeb;
+	
+	private String actorName;
+	
+	private boolean searchedByActor;
 
 	// private WebSearchLazyFilter filter = new WebSearchLazyFilter();
+
+	public String getActorName() {
+		return actorName;
+	}
+
+	public void setActorName(String actorName) {
+		this.actorName = actorName;
+	}
 
 	/** @see br.ufes.inf.nemo.jbutler.ejb.controller.CrudController#getCrudService() */
 	@Override
@@ -68,6 +88,49 @@ public class WebSearchMovieController extends CrudController<Movie> {
 	//
 	// };
 	// }
+	
+	public List<Movie> searchMovieByActor() {
+		List<Movie> resultList = new ArrayList<Movie>();
+		
+		String query = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" + 
+				"PREFIX movie: <http://data.linkedmdb.org/resource/movie/>\n" + 
+				"\n" + 
+				"SELECT DISTINCT ?filmTitle ?initial_release_date ?runtime WHERE {\n" + 
+				"?actor a movie:actor;\n" + 
+				"         movie:actor_name \"" + actorName + "\".\n" + 
+				"?film a movie:film;\n" + 
+				"        movie:actor ?actor;\n" + 
+				"        rdfs:label ?filmTitle;\n" + 
+				"        movie:initial_release_date ?initial_release_date;\n" + 
+				"        movie:runtime ?runtime.\n" + 
+				"}";
+
+		QueryExecution queryExecution = QueryExecutionFactory.sparqlService("http://data.linkedmdb.org/sparql", query);
+		ResultSet results = queryExecution.execSelect();
+
+		while (results.hasNext()) {
+			Movie e = new Movie();
+			QuerySolution querySolution = results.next();
+			e.setTitle(querySolution.getLiteral("filmTitle").toString());
+			e.setLength(new Long(querySolution.getLiteral("runtime").toString()));
+//			e.setLaunchDate(new Date());
+			/**falta entender como parsear a data**/
+			try {
+				e.setLaunchDate(WebSearchMovieJenaDAO.readDate(querySolution.getLiteral("initial_release_date").getString()));
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
+			resultList.add(e);
+		}
+
+		return resultList;
+	}
+	
+	public void searchByActor() {
+		searchedByActor = true;
+	}
 
 	public WebSearchMovieService getWebSearchMovieService() {
 		return webSearchMovieService;
@@ -158,7 +221,10 @@ public class WebSearchMovieController extends CrudController<Movie> {
 			lastEntityIndex = (int) entityCount;
 
 		// Checks if there's an active filter.
-		if (filtering) {
+		if (searchedByActor) {
+			entities = searchMovieByActor();
+		}
+		else if (filtering) {
 			// There is. Retrieve not only within range, but also with
 			// filtering.
 			entities = webSearchMovieService.filter(filter, filterParam, firstEntityIndex, lastEntityIndex);
