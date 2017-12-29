@@ -21,4 +21,4 @@ Steps for importing and using the project(for a simple boot up, all can be chang
 8 - On the running app click and "Install System" and fill in the admin data.  
 9 - Done :)  
   
-Url para RDF dos Filmes: http://localhost:8080/SGAF-1.2.4/data/movie/
+Url para RDF dos Filmes: http://localhost:8080/SGAF-1.2.4/data/movies/
