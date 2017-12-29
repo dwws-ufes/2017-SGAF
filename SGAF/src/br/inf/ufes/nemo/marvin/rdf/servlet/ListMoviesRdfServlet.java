@@ -2,7 +2,6 @@ package br.inf.ufes.nemo.marvin.rdf.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -46,24 +45,25 @@ public class ListMoviesRdfServlet extends HttpServlet {
 		String dcNs = "http://purl.org/dc/terms/";
 		model.setNsPrefix("movie", movieNs);
 		model.setNsPrefix("dc", dcNs);
+		model.setNsPrefix("sgaf", myNS);
 
-		Property filmTitle = ResourceFactory.createProperty( dcNs , "title");
-		Property runtime = ResourceFactory.createProperty(movieNs , "runtime");
-		Property initial_release_date = ResourceFactory.createProperty(movieNs , "initial_release_date");
-		Property synopsis = ResourceFactory.createProperty(movieNs , "synopsis");
+		Property filmTitle = ResourceFactory.createProperty(dcNs, "title");
+		Property runtime = ResourceFactory.createProperty(movieNs, "runtime");
+		Property initial_release_date = ResourceFactory.createProperty(movieNs, "initial_release_date");
+		Property synopsis = ResourceFactory.createProperty(myNS, "synopsis");
 
 		for (Movie temp : movies) {
-			
+
 			Instant instant = Instant.ofEpochMilli(temp.getLaunchDate().getTime());
 			LocalDateTime ldt = LocalDateTime.ofInstant(instant, ZoneOffset.UTC);
-			String strDate =  "" + ldt.getYear() + "-" +  ldt.getMonthValue() + "-" + ldt.getDayOfMonth();
-			
+			String strDate = "" + ldt.getYear() + "-" + ldt.getMonthValue() + "-" + ldt.getDayOfMonth();
+
 			model.createResource(myNS + temp.getId())//
 					.addProperty(RDF.type, "movie:film")//
 					.addProperty(RDFS.label, temp.getTitle())//
 					.addProperty(filmTitle, temp.getTitle())//
 					.addProperty(runtime, temp.getLength().toString())//
-					.addProperty(initial_release_date,strDate)//
+					.addProperty(initial_release_date, strDate)//
 					.addProperty(synopsis, temp.getSynopsis())//
 			;
 		}
