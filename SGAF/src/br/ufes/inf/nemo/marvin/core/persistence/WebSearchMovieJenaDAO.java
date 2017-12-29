@@ -27,11 +27,46 @@ public class WebSearchMovieJenaDAO implements WebSearchMovieDAO, Serializable {
 
 		List<Movie> resultList = new ArrayList<Movie>();
 
-		String query = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\r\n"
-				+ "PREFIX movie: <http://data.linkedmdb.org/resource/movie/>\r\n" + "\r\n" + "\r\n"
-				+ "SELECT DISTINCT ?filmTitle WHERE {\r\n" + "  ?film a movie:film;\r\n"
-				+ "          rdfs:label ?filmTitle\r\n" + "} LIMIT 100";
+		String queryFilteredTitle = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\r\n" + //
+				"PREFIX movie: <http://data.linkedmdb.org/resource/movie/>\r\n" + //
+				"\r\n" + //
+				"\r\n" + //
+				"SELECT DISTINCT ?film ?filmTitle ?runtime ?initial_release_date WHERE {\r\n" + //
+				"  ?film a movie:film;\r\n" + //
+				"          rdfs:label ?filmTitle;\r\n" + //
+				"          rdfs:label \"" + value + "\";\r\n" + //
+				"          movie:runtime ?runtime;\r\n" + //
+				"          movie:initial_release_date ?initial_release_date\r\n" + //
+				"}\r\n" + //
+				"ORDER BY ?filmTitle\r\n" + //
+				"LIMIT " + (interval[1] - interval[0] + 1) + //
+				"OFFSET " + interval[0];
+		
+		String queryFilteredActor = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\r\n" + //
+				"PREFIX movie: <http://data.linkedmdb.org/resource/movie/>\r\n" + //
+				"\r\n" + //
+				"\r\n" + //
+				"SELECT DISTINCT ?film ?filmTitle ?runtime ?initial_release_date WHERE {\r\n" + //
+				"?actor a movie:actor;\r\n" + //
+				"           movie:actor_name  \"" + value + "\";\r\n" + //
+				"           movie:actor_name ?actorName." + //
+				"  ?film a movie:film;\r\n" + //
+				"          rdfs:label ?filmTitle;\r\n" + //
+				"          movie:runtime ?runtime;\r\n" + //
+				"          movie:actor ?actor;\r\n" + //
+				"          movie:initial_release_date ?initial_release_date\r\n" + //
+				"}\r\n" + //
+				"ORDER BY ?filmTitle\r\n" + //
+				"LIMIT " + (interval[1] - interval[0] + 1) + //
+				"OFFSET " + interval[0];
 
+		String query = "";
+		if(filter.getFieldName().compareTo("title")==0){
+			query =  queryFilteredTitle;
+		}else{
+			query = queryFilteredActor;
+		}
+		
 		QueryExecution queryExecution = QueryExecutionFactory.sparqlService("http://data.linkedmdb.org/sparql", query);
 		ResultSet results = queryExecution.execSelect();
 
@@ -39,8 +74,19 @@ public class WebSearchMovieJenaDAO implements WebSearchMovieDAO, Serializable {
 			Movie e = new Movie();
 			QuerySolution querySolution = results.next();
 			e.setTitle(querySolution.getLiteral("filmTitle").toString());
+			e.setLength(new Long(querySolution.getLiteral("runtime").toString()));
+//			e.setLaunchDate(new Date());
+			/**falta entender como parsear a data**/
+			try {
+				e.setLaunchDate(readDate(querySolution.getLiteral("initial_release_date").getString()));
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
 			resultList.add(e);
 		}
+		
 		queryExecution.close();
 		return resultList;
 	}
@@ -88,17 +134,38 @@ public class WebSearchMovieJenaDAO implements WebSearchMovieDAO, Serializable {
 
 	public long retrieveFilteredCount(Filter<?> filter, String value) {
 
-		String query = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\r\n" + //
+		String queryFilteredTitle = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\r\n" + //
 				"PREFIX movie: <http://data.linkedmdb.org/resource/movie/>\r\n" + //
 				"\r\n" + //
 				"\r\n" + //
 				"SELECT (COUNT(?film) as ?count) WHERE {\r\n" + //
 				"  ?film a movie:film;\r\n" + //
 				"          rdfs:label ?filmTitle;\r\n" + //
+				"          rdfs:label \"" + value + "\";\r\n" + //
 				"          movie:runtime ?runtime;\r\n" + //
 				"          movie:initial_release_date ?initial_release_date\r\n" + //
 				"}";
 
+		String queryFilteredActor = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\r\n" + //
+				"PREFIX movie: <http://data.linkedmdb.org/resource/movie/>\r\n" + //
+				"\r\n" + //
+				"\r\n" + //
+				"SELECT (COUNT(?film) as ?count) WHERE {\r\n" + //
+				"?actor a movie:actor;\r\n" + //
+				"           movie:actor_name  \"" + value + "\";\r\n" + //
+				"           movie:actor_name ?actorName." + //
+				"  ?film a movie:film;\r\n" + //
+				"          rdfs:label ?filmTitle;\r\n" + //
+				"          movie:runtime ?runtime;\r\n" + //
+				"          movie:actor ?actor;\r\n" + //
+				"          movie:initial_release_date ?initial_release_date\r\n" + //
+				"}";
+		String query = "";
+		if(filter.getFieldName().compareTo("title")==0){
+			query =  queryFilteredTitle;
+		}else{
+			query = queryFilteredActor;
+		}
 		QueryExecution queryExecution = QueryExecutionFactory.sparqlService("http://data.linkedmdb.org/sparql", query);
 		ResultSet results = queryExecution.execSelect();
 

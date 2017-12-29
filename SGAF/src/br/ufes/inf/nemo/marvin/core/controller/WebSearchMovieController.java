@@ -41,6 +41,8 @@ public class WebSearchMovieController extends CrudController<Movie> {
 	protected void initFilters() {
 		addFilter(new SimpleFilter("ManageMovies.filter.byTitle", "title",
 				getI18nMessage("msgsCore", "ManageMovies.text.filter.byTitle")));
+		addFilter(new SimpleFilter("ManageMovies.filter.byActor", "actor",
+				getI18nMessage("msgsCore", "ManageMovies.text.filter.byActor")));
 	}
 
 	public WebSearchMovieService getWebSearchMovieService() {
